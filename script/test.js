@@ -1,9 +1,10 @@
 const axios = require('axios');
-const request = require('request');
 const myCheerio = require('cheerio');
-const myIconv = require('iconv-lite');
-const myEncoding = null;
-
+const {houseBargainModel} = require('../models/houseModel');
+const moment = require('moment');
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+logger.level = 'info';
 
 var seedURL_format = "$('a')";
 var keywords_format = " $('meta[name=\"keywords\"]').eq(0).attr(\"content\")";
@@ -31,37 +32,49 @@ const headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
 }
 
-const cookies = {
-    "zh_choose_undefined": "s",
-    "arialoadData": "false",
-    "SERVERID": "57526053d080975751a9538d16dda0a7|1678115473|1678114551"
-}
-
-async function reqqqq(url) {
-    const options = {
-        url: url,
-        encoding: null,
-        headers: headers,
-        timeout: 10000 
-    }
-    return await request(options);
-}
+// const houseBargainSchema = new mongoose.Schema({
+//     city: {type: String},
+//     district: {type: String},
+//     bargainType: {type: String},
+//     houseType: {type: String},
+//     date: {type: Number},
+//     square: {type: Number},
+//     quantity: {type: Number},
+// });
 
 async function getHttp(url) {
     const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
-    const res2 = await reqqqq(url);
-    // var html = myIconv.decode(res.data, myEncoding);
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
-    //console.log(res.data); 
     const ershow = $("#con3");
-    // console.log(chengjiao_box.length, seedurl_news[0].children[0].next.children[0].data);
-    // console.log(chengjiao_box.length, chengjiao_box[1].children[1].);
-    console.log(ershow.length, ershow[0].children[1].children[1].children[0]);
-    console.log(ershow.length, ershow[0].children[1].children[3].children[0]);
-    // console.log(ershow.length, ershow[0].children[1].children[5].children[0]);
-    // console.log(ershow.length, ershow[0].children[1].children[7].children[0]);
-    // console.log($('<div style="width:81px; float:left;">22套</div>').text());
+    const updateData = [];
+    const now = moment().unix();
+    const date = moment().format('YYYY-MM-DD');
+    for (let i=1; i<27;i+=2) {
+        const data = {
+            city: '杭州',
+            district: ershow[0].children[i].children[1].children[0].data,
+            bargainType: '二手',
+            houseType: '住宅',
+            square: ershow[0].children[i].children[9].children[0].data,
+            quantity: ershow[0].children[i].children[7].children[0].data,
+            dateUnix: now,
+            date
+        };
+        updateData.push(data);
+    }
+    logger.info('updateData', JSON.stringify(updateData));
+    await houseBargainModel.insertMany(updateData);
+}
+async function main() {
+    try {
+        await getHttp('https://zwfw.fgj.hangzhou.gov.cn/hzfcweb_ifs/interaction/scxx');
+        logger.info('get hz house bargin data successfully');
+        process.exit(0);
+    } catch (e) {
+        logger.error(`Error: ${e}`);
+        process.exit(1);
+    }
 }
 
+main()
 
-getHttp('https://zwfw.fgj.hangzhou.gov.cn/hzfcweb_ifs/interaction/scxx');

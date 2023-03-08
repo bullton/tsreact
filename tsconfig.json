@@ -27,5 +27,5 @@
   },
   "include": [
     "src"
-  ]
+, "script/test.js"  ]
 }
