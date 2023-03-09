@@ -1,0 +1,1542 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="ctime" content="2023-03-07T11:00" />
+    <link rel="stylesheet" type="text/css" href="../css/hanweb.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index20190612.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/scxx.css"/>
+    <script src="../js/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="../js/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
+    <title>杭州市住房保障和房产管理局</title>
+    <style>
+    </style>
+</head>
+
+<body>
+
+
+<div class="nav">
+    <div class="box1">
+        <div class="box1_1">
+            <div class="title">
+                <span class="fir_s">今日商品房可售信息</span><span class="sec_s">*该栏目数据为每小时统计一次</span>
+            </div>
+
+           
+            <script>
+                $(function () {
+                    function moveUp() {
+                        var stop = false;
+                        setInterval(function () {
+                            if (stop == true) {
+                                return;
+                            }
+                            $("#scroll-wrap").animate({"top": "-=2"}, 0, function () {
+
+                                var s = Math.abs(parseInt($(this).css("top")));
+                                if (s >= 30) {
+                                    var tr0 = $(this).children("div").eq(0)
+
+                                    // $(this).remove(tr0)
+                                    tr0.appendTo($(this))
+                                    $(this).css("top", "0");
+                                }
+                            })
+                        }, 125);
+                        $("#scroll-wrap").hover(function () {
+                            $(this).css("cursor", "pointer");
+                            stop = true; //停止动画
+                        }, function () {
+                            stop = false; //开始动画
+                        });
+                    }
+
+                    moveUp();
+                });
+            </script>
+            <style>
+                .list-item div {
+                    overflow: hidden;
+                    line-height: 30px;
+                }
+
+                .list-item {
+                    overflow: hidden;
+                    height: 30px;
+                    line-height: 30px;
+                }
+
+                #scroll-wrap {
+                    position: absolute;
+                }
+
+                .jr-wrap {
+                    position: relative;
+                    padding: 0px 30px;
+                    width: 778px;
+                    overflow: hidden;
+                    height: 187px;
+                }
+
+                #jr-list {
+                    font-weight: bold;
+                    overflow: hidden;
+                    margin-right: -50px;
+                    padding: 0px 30px;
+                    padding-top: 20px;
+                    width: 778px;
+                }
+            </style>
+            <div id="jr-list">
+                <div style="width: 90px;float: left;">区域</div>
+                <div style="width: 142px;float: left;">可售套数</div>
+                <div style="width: 190px;float: left;">可售面积</div>
+                <div style="width: 155px;float: left;">其中住宅可售套数</div>
+                <div style="min-width:130px;float: left;">其中住宅可售面积</div>
+            </div>
+            <div class="jr-wrap">
+                <div id="scroll-wrap" style="top: -12px;">
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">上城</div>
+                        <div style="width: 142px;float: left;">9383套</div>
+                        <div style="width: 190px;float: left;">1806370.88m²</div>
+                        <div style="width: 155px;float: left;">831套</div>
+                        <div style="min-width:130px;float: left;">120447.75m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">拱墅</div>
+                        <div style="width: 142px;float: left;">9120套</div>
+                        <div style="width: 190px;float: left;">1418928.95m²</div>
+                        <div style="width: 155px;float: left;">1192套</div>
+                        <div style="min-width:130px;float: left;">161784.06m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">西湖</div>
+                        <div style="width: 142px;float: left;">12287套</div>
+                        <div style="width: 190px;float: left;">1409957.36m²</div>
+                        <div style="width: 155px;float: left;">778套</div>
+                        <div style="min-width:130px;float: left;">144976.47m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">滨江</div>
+                        <div style="width: 142px;float: left;">1814套</div>
+                        <div style="width: 190px;float: left;">283822.45m²</div>
+                        <div style="width: 155px;float: left;">681套</div>
+                        <div style="min-width:130px;float: left;">90953.9m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">临平</div>
+                        <div style="width: 142px;float: left;">12753套</div>
+                        <div style="width: 190px;float: left;">1257788.56m²</div>
+                        <div style="width: 155px;float: left;">5825套</div>
+                        <div style="min-width:130px;float: left;">681044.73m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">萧山</div>
+                        <div style="width: 142px;float: left;">19060套</div>
+                        <div style="width: 190px;float: left;">2252672.55m²</div>
+                        <div style="width: 155px;float: left;">6493套</div>
+                        <div style="min-width:130px;float: left;">775299.62m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">余杭</div>
+                        <div style="width: 142px;float: left;">6799套</div>
+                        <div style="width: 190px;float: left;">967539.55m²</div>
+                        <div style="width: 155px;float: left;">3282套</div>
+                        <div style="min-width:130px;float: left;">455242.57m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">钱塘区</div>
+                        <div style="width: 142px;float: left;">6705套</div>
+                        <div style="width: 190px;float: left;">751190.01m²</div>
+                        <div style="width: 155px;float: left;">3939套</div>
+                        <div style="min-width:130px;float: left;">427554.85m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">富阳</div>
+                        <div style="width: 142px;float: left;">10866套</div>
+                        <div style="width: 190px;float: left;">1258247.9m²</div>
+                        <div style="width: 155px;float: left;">6904套</div>
+                        <div style="min-width:130px;float: left;">855585.57m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">桐庐</div>
+                        <div style="width: 142px;float: left;">9402套</div>
+                        <div style="width: 190px;float: left;">1008822.38m²</div>
+                        <div style="width: 155px;float: left;">5494套</div>
+                        <div style="min-width:130px;float: left;">649116.49m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">建德</div>
+                        <div style="width: 142px;float: left;">4281套</div>
+                        <div style="width: 190px;float: left;">439296.33m²</div>
+                        <div style="width: 155px;float: left;">2074套</div>
+                        <div style="min-width:130px;float: left;">254776.26m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">淳安</div>
+                        <div style="width: 142px;float: left;">8767套</div>
+                        <div style="width: 190px;float: left;">940395.89m²</div>
+                        <div style="width: 155px;float: left;">5995套</div>
+                        <div style="min-width:130px;float: left;">679934.26m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">临安</div>
+                        <div style="width: 142px;float: left;">16016套</div>
+                        <div style="width: 190px;float: left;">1911356.36m²</div>
+                        <div style="width: 155px;float: left;">11294套</div>
+                        <div style="min-width:130px;float: left;">1280327.47m²</div>
+                    </div>
+
+
+                    <div class="list-item">
+                        <div style="width: 90px;float: left;">合计</div>
+                        <div style="width: 142px;float: left;">127253套</div>
+                        <div style="width: 190px;float: left;">15706389.17m²</div>
+                        <div style="width: 155px;float: left;">54782套</div>
+                        <div style="min-width:130px;float: left;">6577044m²</div>
+                    </div>
+
+                </div>
+            </div>
+            <script>
+                $('.list-item').children('div').map(function () {
+                    if ($.trim($(this).text()) == '合计') {
+                        $(this).parent().css({
+                            'color': '#21528A',
+                            'font-weight': 'bold'
+                        });
+                    }
+                })
+            </script>
+
+
+        </div>
+        <div class="box1_2">
+            <div class="title">
+                <span class="fir_s">今日商品房累计成交信息（房屋类型）</span>
+                <span class="sec_s">*该栏目数据为每小时统计一次
+                    <img alt class="question" src="../images/scxx/question.png">
+                    <div class="tipPop" style="display: none;">以网签备案数据为准<img alt="" class="thri" src="../images/scxx/thri.png"></div>
+                </span>
+            </div>
+            <div class="E_table1">
+                <div class="show_echarts" style="display: inline-block ; vertical-align: top; /*position: relative*/;">
+                    <div class="change_but" style="top: 10px;">
+                        <button class="Secharts1 in">面积</button>
+                        <button class="Secharts2">套数</button>
+                    </div>
+                    <div class="echarts1 fgj" scrolling="no" width="420" height="220"
+                         style="margin-right:5px;">
+
+                        <div id="main1"
+                             style="width: 420px; height: 220px; margin: 0px auto; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+                             _echarts_instance_="ec_1605150620977">
+                            <div style="position: relative; overflow: hidden; width: 420px; height: 220px; padding: 0px; margin: 0px; border-width: 0px;">
+                                <canvas data-zr-dom-id="zr_0" width="420" height="220"
+                                        style="position: absolute; left: 0px; top: 0px; width: 420px; height: 220px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                            <div></div>
+                        </div>
+                        <script>
+                            // 基于准备好的dom，初始化echarts图表
+                            var myChart1 = echarts.init(document.getElementById('main1'));
+
+                            var areas = ['住宅', '商业用房', '写字楼', '其它',];
+                            var sets=new Array();
+                            sets.push("16905.76", "280.04", "543.79", null);
+                            if (areas[areas.length - 1] == undefined) {
+                                areas = areas.slice(0, areas.length - 1);
+                            }
+                            if (sets[sets.length - 1] == undefined) {
+                                sets = sets.slice(0, sets.length - 1);
+                            }
+
+                            var option = {
+                                title: {},
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: ['成交面积']
+                                },
+                                grid: {
+                                    left: 50
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        mark: {show: false},
+                                        dataView: {show: false, readOnly: false},
+                                        magicType: {show: false, type: ['line', 'bar']},
+                                        restore: {show: false},
+                                        saveAsImage: {show: false}
+                                    }
+                                },
+                                calculable: true,
+                                xAxis: [{
+                                    type: 'category',
+                                    data: areas,
+                                    splitLine: {
+                                        show: true
+                                    },
+                                }],
+                                yAxis: [{
+                                    type: 'value',
+                                    boundaryGap: [0, 0.01],
+                                }],
+                                series: [{
+                                    name: '成交面积',
+                                    type: 'bar',
+                                    data: sets,
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#698aab'
+                                        }
+                                    },
+                                    // barWidth: '10%'
+                                }]
+                            };
+
+                            // 为echarts对象加载数据
+                            myChart1.setOption(option);
+                        </script>
+                    </div>
+                    <div class="echarts2 fgj" scrolling="no" width="420" height="220"
+                         style="margin-right:5px; display:none;">
+                       
+
+
+                        <div id="main"
+                             style="width: 420px; height: 220px; margin: 0px auto; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+                             _echarts_instance_="ec_1605150620978">
+                            <div style="position: relative; overflow: hidden; width: 420px; height: 220px; padding: 0px; margin: 0px; border-width: 0px;">
+                                <canvas data-zr-dom-id="zr_0" width="420" height="220"
+                                        style="position: absolute; left: 0px; top: 0px; width: 420px; height: 220px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                            <div></div>
+                        </div>
+                        <script type="text/javascript">
+                            // 基于准备好的dom，初始化echarts图表
+                            var myChart = echarts.init(document.getElementById('main'));
+
+                            var areas = ['住宅', '商业用房', '写字楼', '其它',];
+                            var yLeft = 8;
+                            var sets=new Array();
+                            sets.push(139, 1, 8, );
+                            if (areas[areas.length - 1] == undefined) {
+                                areas = areas.slice(0, areas.length - 1);
+                                yLeft = 30;
+                            }
+                            if (sets[sets.length - 1] == undefined) {
+                                sets = sets.slice(0, sets.length - 1);
+                            }
+
+                            var option = {
+                                title: {},
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: ['成交套数']
+                                },
+                                grid: {
+                                    left: 50
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        mark: {show: false},
+                                        dataView: {show: false, readOnly: false},
+                                        magicType: {show: false, type: ['line', 'bar']},
+                                        restore: {show: false},
+                                        saveAsImage: {show: false}
+                                    }
+                                },
+                                calculable: true,
+                                xAxis: [{
+                                    type: 'category',
+                                    data: areas,
+                                    splitLine: {
+                                        show: true
+                                    },
+                                }],
+                                yAxis: [{
+                                    type: 'value',
+                                    boundaryGap: [0, 0.01],
+                                    axisLabel: {
+                                        margin: yLeft
+                                    }
+                                }],
+                                series: [{
+                                    name: '成交套数',
+                                    type: 'bar',
+                                    data: sets,
+                                    itemStyle: {
+                                        normal: {
+                                            color: '#83ccd2'
+                                        }
+                                    },
+                                    // barWidth: '10%'
+                                }]
+                            };
+
+                            // 为echarts对象加载数据
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                </div>
+                <div style="display: inline-block;">
+                    <table style="margin: 20px 0;">
+                        <thead>
+                        <tr>
+                            <th style="width: 100px;">房屋用途</th>
+                            <th style="width: 100px;">成交套数</th>
+                            <th style="width: 100px;">成交面积</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                       
+                        <tr>
+                            <td>住宅</td>
+                            <td>139套</td>
+                            <td>16905.76m²</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>商业用房</td>
+                            <td>1套</td>
+                            <td>280.04m²</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>写字楼</td>
+                            <td>8套</td>
+                            <td>543.79m²</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>其它</td>
+                            <td>0套</td>
+                            <td>0m²</td>
+                        </tr>
+                       
+                        <tr>
+                            <td>合计</td>
+                            <td>148套</td>
+                            <td>17729.59m²</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="box2">
+        <div class="box2_1">
+            <div class="title">
+                <span class="fir_s">新建商品房批准预售信息</span>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 100px;">时段</th>
+                    <th style="width: 154px;">批准预售套数</th>
+                    <th style="width: 200px;">批准预售面积</th>
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                <tr>
+                    <td>本月</td>
+                    <td>1526套</td>
+                    <td>196334.79m²</td>
+                </tr>
+                <tr>
+                    <td>本年</td>
+                    <td>12399套</td>
+                    <td>1644228.88m²</td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 100px;">时段</th>
+                    <th style="width: 240px;">批准预售住宅套数</th>
+                    <th style="width: 200px;">批准预售住宅面积</th>
+
+                </tr>
+                </thead>
+                <tbody>
+               
+                <tr>
+                    <td>本月</td>
+                    <td>1521套</td>
+                    <td>196060.98m²</td>
+                </tr>
+                <tr>
+                    <td>本年</td>
+                    <td>11964套</td>
+                    <td>1548913.5m²</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box2_2">
+            <a href="http://fgj.hangzhou.gov.cn/col/col1636560/index.html" target="_blank">即将预售楼盘公示</a>
+            <a href="http://fgj.hangzhou.gov.cn/col/col1636539/index.html" target="_blank">解除合同情况公示</a>
+            <a href="http://fgj.hangzhou.gov.cn/col/col1636540/index.html" target="_blank">连续预定情况公示</a>
+            <a href="http://223.4.73.187/pub/list" target="_blank">格式合同备案公示系统</a>
+            <style>
+                .box2_2 > a {
+                    height: 45px;
+                    line-height: 45px;
+                }
+            </style>
+        </div>
+    </div>
+    <div class="box3">
+        <div class="title">
+            <span class="fir_s">今日商品房累计成交信息（区域）</span><span class="sec_s">*该栏目数据为每小时统计一次
+                                <img alt class="question" src="../images/scxx/question.png">
+                    <div class="tipPop" style="display: none;">以网签备案数据为准<img alt="" class="thri" src="../images/scxx/thri.png"></div>
+        </span>
+        </div>
+        <div class="E_table2">
+            <div class="change_but">
+                <button class="in Secharts3">面积</button>
+                <button class="Secharts4">套数</button>
+            </div>
+            <div class="new_box">
+                <div class="echarts3 fgj" scrolling="no" width="420" height="220"
+                     style="margin-right:10px; display:inline;">
+                   
+
+                    <div id="main2"
+                         style="width: 570px; height: 720px; margin: 0px auto; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+                         _echarts_instance_="ec_1605150620979">
+                        <div style="position: relative; overflow: hidden; width: 570px; height: 720px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="570" height="720"
+                                    style="position: absolute; left: 0px; top: 0px; width: 570px; height: 720px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                        <div></div>
+                    </div>
+                    <script type="text/javascript">
+                        // 基于准备好的dom，初始化echarts图表
+                        var myChart2 = echarts.init(document.getElementById('main2'));
+                        var areas = ['上城', '拱墅', '西湖', '滨江', '萧山', '余杭','临平', '富阳', '临安', '桐庐', '淳安', '建德', '钱塘区', '合计',];
+                        var sets=new Array();
+                        sets.push(1852.31,  931.09,828.08,108.68,5504.86,1776.53,89.16,0,2332.15,612.91,428.97,232.18,89.16,17729.59);
+                        if (areas[areas.length - 1] == undefined) {
+                            areas = areas.slice(0, areas.length - 1);
+                        }
+                        if (sets[sets.length - 1] == undefined) {
+                            sets = sets.slice(0, sets.length - 1);
+                        }
+
+                        var option = {
+                            title: {},
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data: ['成交面积']
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    mark: {show: false},
+                                    dataView: {show: false, readOnly: false},
+                                    magicType: {show: false, type: ['line', 'bar']},
+                                    restore: {show: false},
+                                    saveAsImage: {show: false}
+                                }
+                            },
+                            calculable: true,
+                            xAxis: [{
+                                type: 'value',
+                                boundaryGap: [0, 0.01]
+                            }],
+                            yAxis: [{
+                                type: 'category',
+                                data: areas.reverse(),
+                                splitLine: {
+                                    show: true
+                                },
+                            },
+                            ],
+                            series: [{
+                                name: '成交面积',
+                                type: 'bar',
+                                data: sets.reverse(),
+                                itemStyle: {
+                                    normal: {
+                                        color: '#698aab'
+                                    }
+                                }
+
+                            }
+
+                            ]
+                        };
+
+                        // 为echarts对象加载数据
+                        myChart2.setOption(option);
+                    </script>
+                </div>
+                <div class="echarts4 fgj" scrolling="no" width="420" height="220"
+                     style="margin-right:10px;display:none;">
+                   
+
+                    <div id="main3"
+                         style="width: 570px; height: 720px; margin: 0px auto; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+                         _echarts_instance_="ec_1605150620980">
+                        <div style="position: relative; overflow: hidden; width: 570px; height: 720px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="570" height="720"
+                                    style="position: absolute; left: 0px; top: 0px; width: 570px; height: 720px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                        <div></div>
+                    </div>
+                    <script type="text/javascript">
+                        // 基于准备好的dom，初始化echarts图表
+                        var myChart3 = echarts.init(document.getElementById('main3'));
+
+                        var yLeft = 8;
+                        var areas = ['上城', '拱墅', '西湖', '滨江', '萧山', '余杭','临平', '富阳', '临安', '桐庐', '淳安', '建德', '钱塘区', '合计',];
+                        var sets=new Array();
+                        sets.push(15,   7,6,1,43,15,1,0,23,5,3,2,1,148);
+                        if (areas[areas.length - 1] == undefined) {
+                            areas = areas.slice(0, areas.length - 1);
+                            yLeft = 35;
+                        }
+                        if (sets[sets.length - 1] == undefined) {
+                            sets = sets.slice(0, sets.length - 1);
+                        }
+
+                        var option = {
+                            title: {},
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data: ['成交套数']
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    mark: {show: false},
+                                    dataView: {show: false, readOnly: false},
+                                    magicType: {show: false, type: ['line', 'bar']},
+                                    restore: {show: false},
+                                    saveAsImage: {show: false}
+                                }
+                            },
+                            calculable: true,
+                            xAxis: [{
+                                type: 'value',
+                                boundaryGap: [0, 0.01]
+                            }],
+                            yAxis: [{
+                                type: 'category',
+                                data: areas.reverse(),
+                                splitLine: {
+                                    show: true
+                                },
+                                axisLabel: {
+                                    margin: yLeft
+                                }
+                            },
+                            ],
+                            series: [{
+                                name: '成交套数',
+                                type: 'bar',
+                                data: sets.reverse(),
+                                itemStyle: {
+                                    normal: {
+                                        color: '#83ccd2'
+                                    }
+                                }
+
+                            }
+
+                            ]
+                        };
+
+                        // 为echarts对象加载数据
+                        myChart3.setOption(option);
+                    </script>
+                </div>
+            </div>
+
+        </div>
+        <div class="line">
+
+        </div>
+        <div class="box3_tab">
+
+           
+            <style>
+                .line {
+                    vertical-align: top;
+                    height: 440px
+                }
+
+                .box3_tab {
+                    vertical-align: top;
+                    width: 552px;
+                }
+
+                #spfljcj_area {
+                    line-height: 40px;
+                    height: 40px;
+                }
+
+                #spfljcj_area div {
+                    font-weight: 800;
+                    text-align: center;
+                    font-size: 15px;
+                    display: inline-block;
+                }
+
+                .hehe div {
+                    text-align: center;
+                    display: inline-block;
+                }
+            </style>
+
+            <div id="spfljcj_area">
+                <div style="width:81px; float:left;">区域</div>
+                <div style="width:81px; float:left;">成交套数</div>
+                <div style="width:81px; float:left;">成交面积</div>
+                <div style="width:145px; float:left;">其中住宅成交套数</div>
+                <div style="width:145px; float:left;">其中住宅成交面积</div>
+            </div>
+            <div id="scrollBox" style="height:360px;overflow: hidden;">
+                <div id="con1">
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">上城</div>
+                        <div style="width:81px; float:left;">15套</div>
+                        <div style="width:81px; float:left;">1852.31m²</div>
+                        <div style="width:145px; float:left;">9套</div>
+                        <div style="width:145px; float:left;">1383.12m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">拱墅</div>
+                        <div style="width:81px; float:left;">7套</div>
+                        <div style="width:81px; float:left;">931.09m²</div>
+                        <div style="width:145px; float:left;">7套</div>
+                        <div style="width:145px; float:left;">931.09m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">西湖</div>
+                        <div style="width:81px; float:left;">6套</div>
+                        <div style="width:81px; float:left;">828.08m²</div>
+                        <div style="width:145px; float:left;">3套</div>
+                        <div style="width:145px; float:left;">473.44m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">滨江</div>
+                        <div style="width:81px; float:left;">1套</div>
+                        <div style="width:81px; float:left;">108.68m²</div>
+                        <div style="width:145px; float:left;">1套</div>
+                        <div style="width:145px; float:left;">108.68m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临平</div>
+                        <div style="width:81px; float:left;">27套</div>
+                        <div style="width:81px; float:left;">3032.67m²</div>
+                        <div style="width:145px; float:left;">27套</div>
+                        <div style="width:145px; float:left;">3032.67m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">萧山</div>
+                        <div style="width:81px; float:left;">43套</div>
+                        <div style="width:81px; float:left;">5504.86m²</div>
+                        <div style="width:145px; float:left;">43套</div>
+                        <div style="width:145px; float:left;">5504.86m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">余杭</div>
+                        <div style="width:81px; float:left;">15套</div>
+                        <div style="width:81px; float:left;">1776.53m²</div>
+                        <div style="width:145px; float:left;">15套</div>
+                        <div style="width:145px; float:left;">1776.53m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">钱塘区</div>
+                        <div style="width:81px; float:left;">1套</div>
+                        <div style="width:81px; float:left;">89.16m²</div>
+                        <div style="width:145px; float:left;">1套</div>
+                        <div style="width:145px; float:left;">89.16m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">富阳</div>
+                        <div style="width:81px; float:left;">0套</div>
+                        <div style="width:81px; float:left;">0m²</div>
+                        <div style="width:145px; float:left;">0套</div>
+                        <div style="width:145px; float:left;">0m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">桐庐</div>
+                        <div style="width:81px; float:left;">5套</div>
+                        <div style="width:81px; float:left;">612.91m²</div>
+                        <div style="width:145px; float:left;">5套</div>
+                        <div style="width:145px; float:left;">612.91m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">建德</div>
+                        <div style="width:81px; float:left;">2套</div>
+                        <div style="width:81px; float:left;">232.18m²</div>
+                        <div style="width:145px; float:left;">2套</div>
+                        <div style="width:145px; float:left;">232.18m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">淳安</div>
+                        <div style="width:81px; float:left;">3套</div>
+                        <div style="width:81px; float:left;">428.97m²</div>
+                        <div style="width:145px; float:left;">3套</div>
+                        <div style="width:145px; float:left;">428.97m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临安</div>
+                        <div style="width:81px; float:left;">23套</div>
+                        <div style="width:81px; float:left;">2332.15m²</div>
+                        <div style="width:145px; float:left;">23套</div>
+                        <div style="width:145px; float:left;">2332.15m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">合计</div>
+                        <div style="width:81px; float:left;">148套</div>
+                        <div style="width:81px; float:left;">17729.59m²</div>
+                        <div style="width:145px; float:left;">139套</div>
+                        <div style="width:145px; float:left;">16905.76m²</div>
+                    </div>
+
+                    <div class="list-item hehe"></div>
+                </div>
+                <div id="con2">
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">上城</div>
+                        <div style="width:81px; float:left;">15套</div>
+                        <div style="width:81px; float:left;">1852.31m²</div>
+                        <div style="width:145px; float:left;">9套</div>
+                        <div style="width:145px; float:left;">1383.12m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">拱墅</div>
+                        <div style="width:81px; float:left;">7套</div>
+                        <div style="width:81px; float:left;">931.09m²</div>
+                        <div style="width:145px; float:left;">7套</div>
+                        <div style="width:145px; float:left;">931.09m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">西湖</div>
+                        <div style="width:81px; float:left;">6套</div>
+                        <div style="width:81px; float:left;">828.08m²</div>
+                        <div style="width:145px; float:left;">3套</div>
+                        <div style="width:145px; float:left;">473.44m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">滨江</div>
+                        <div style="width:81px; float:left;">1套</div>
+                        <div style="width:81px; float:left;">108.68m²</div>
+                        <div style="width:145px; float:left;">1套</div>
+                        <div style="width:145px; float:left;">108.68m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临平</div>
+                        <div style="width:81px; float:left;">27套</div>
+                        <div style="width:81px; float:left;">3032.67m²</div>
+                        <div style="width:145px; float:left;">27套</div>
+                        <div style="width:145px; float:left;">3032.67m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">萧山</div>
+                        <div style="width:81px; float:left;">43套</div>
+                        <div style="width:81px; float:left;">5504.86m²</div>
+                        <div style="width:145px; float:left;">43套</div>
+                        <div style="width:145px; float:left;">5504.86m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">余杭</div>
+                        <div style="width:81px; float:left;">15套</div>
+                        <div style="width:81px; float:left;">1776.53m²</div>
+                        <div style="width:145px; float:left;">15套</div>
+                        <div style="width:145px; float:left;">1776.53m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">钱塘区</div>
+                        <div style="width:81px; float:left;">1套</div>
+                        <div style="width:81px; float:left;">89.16m²</div>
+                        <div style="width:145px; float:left;">1套</div>
+                        <div style="width:145px; float:left;">89.16m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">富阳</div>
+                        <div style="width:81px; float:left;">0套</div>
+                        <div style="width:81px; float:left;">0m²</div>
+                        <div style="width:145px; float:left;">0套</div>
+                        <div style="width:145px; float:left;">0m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">桐庐</div>
+                        <div style="width:81px; float:left;">5套</div>
+                        <div style="width:81px; float:left;">612.91m²</div>
+                        <div style="width:145px; float:left;">5套</div>
+                        <div style="width:145px; float:left;">612.91m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">建德</div>
+                        <div style="width:81px; float:left;">2套</div>
+                        <div style="width:81px; float:left;">232.18m²</div>
+                        <div style="width:145px; float:left;">2套</div>
+                        <div style="width:145px; float:left;">232.18m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">淳安</div>
+                        <div style="width:81px; float:left;">3套</div>
+                        <div style="width:81px; float:left;">428.97m²</div>
+                        <div style="width:145px; float:left;">3套</div>
+                        <div style="width:145px; float:left;">428.97m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临安</div>
+                        <div style="width:81px; float:left;">23套</div>
+                        <div style="width:81px; float:left;">2332.15m²</div>
+                        <div style="width:145px; float:left;">23套</div>
+                        <div style="width:145px; float:left;">2332.15m²</div>
+                    </div>
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">合计</div>
+                        <div style="width:81px; float:left;">148套</div>
+                        <div style="width:81px; float:left;">17729.59m²</div>
+                        <div style="width:145px; float:left;">139套</div>
+                        <div style="width:145px; float:left;">16905.76m²</div>
+                    </div>
+
+                    <div class="list-item hehe"></div>
+                </div>
+            </div>
+            <script>
+                var area = document.getElementById('scrollBox');
+                var con1 = document.getElementById('con1');
+                var con2 = document.getElementById('con2');
+                con2.innerHTML = con1.innerHTML;
+
+                function scrollUp() {
+                    if (area.scrollTop >= con1.offsetHeight) {
+                        area.scrollTop = 0;
+                    } else {
+                        area.scrollTop++
+                    }
+                }
+
+                var time = 50;
+                var mytimer = setInterval(scrollUp, time);
+                area.onmouseover = function () {
+                    clearInterval(mytimer);
+                }
+                area.onmouseout = function () {
+                    mytimer = setInterval(scrollUp, time);
+                }
+            </script>
+
+
+            <div class="total">
+                <span style="width: 51px;">&nbsp;&nbsp;&nbsp;&nbsp;合计</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="width:81px" class="spflj">&nbsp;&nbsp;&nbsp;148套</span><span style="width:81px">&nbsp;&nbsp;&nbsp;17729.59m²</span><span style="width:131px">&nbsp;&nbsp;&nbsp;&nbsp;139套</span><span style="width:131px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16905.76m²</span><!--!--subfor---->
+            </div>
+        </div>
+    </div>
+    <div class="box3">
+        <div class="title">
+            <span class="fir_s">今日二手房累计成交信息</span><span class="sec_s">*该栏目数据为每小时统计一次
+                                <img alt class="question" src="../images/scxx/question.png">
+                    <div class="tipPop" style="display: none;">以网签备案数据为准<img alt="" class="thri" src="../images/scxx/thri.png"></div>
+        </span>
+        </div>
+        <div class="box3_tab">
+           
+            <style>
+                .line {
+                    vertical-align: top;
+                    height: 440px
+                }
+
+                .box3_tab {
+                    vertical-align: top;
+                }
+
+
+                #esfljcj {
+                    height: 40px;
+                }
+
+                #esfljcj div {
+                    font-weight: 800;
+                    text-align: center;
+                    font-size: 15px;
+                    display: inline-block;
+                }
+
+                .hehe div {
+                    text-align: center;
+                    display: inline-block;
+                }
+            </style>
+
+            <div id="esfljcj">
+                <div style="width:81px; float:left;">区域</div>
+                <div style="width:81px; float:left;">套数</div>
+                <div style="width:81px; float:left;">面积</div>
+                <div style="width:145px; float:left;">住宅套数</div>
+                <div style="width:145px; float:left;">住宅面积</div>
+            </div>
+            <div id="scrollBox1" style="height:360px;overflow: hidden;">
+                <div id="con3">
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">上城</div>
+                        <div style="width:81px; float:left;">13套</div>
+                        <div style="width:81px; float:left;">1923.85m²</div>
+                        <div style="width:145px; float:left;">8套</div>
+                        <div style="width:145px; float:left;">885.7m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">拱墅</div>
+                        <div style="width:81px; float:left;">10套</div>
+                        <div style="width:81px; float:left;">822.14m²</div>
+                        <div style="width:145px; float:left;">10套</div>
+                        <div style="width:145px; float:left;">822.14m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">西湖</div>
+                        <div style="width:81px; float:left;">16套</div>
+                        <div style="width:81px; float:left;">1500.7m²</div>
+                        <div style="width:145px; float:left;">10套</div>
+                        <div style="width:145px; float:left;">1228.99m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">滨江</div>
+                        <div style="width:81px; float:left;">2套</div>
+                        <div style="width:81px; float:left;">184.33m²</div>
+                        <div style="width:145px; float:left;">2套</div>
+                        <div style="width:145px; float:left;">184.33m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临平</div>
+                        <div style="width:81px; float:left;">17套</div>
+                        <div style="width:81px; float:left;">1720.47m²</div>
+                        <div style="width:145px; float:left;">17套</div>
+                        <div style="width:145px; float:left;">1720.47m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">萧山</div>
+                        <div style="width:81px; float:left;">16套</div>
+                        <div style="width:81px; float:left;">1907.55m²</div>
+                        <div style="width:145px; float:left;">16套</div>
+                        <div style="width:145px; float:left;">1907.55m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">余杭</div>
+                        <div style="width:81px; float:left;">13套</div>
+                        <div style="width:81px; float:left;">1597.27m²</div>
+                        <div style="width:145px; float:left;">12套</div>
+                        <div style="width:145px; float:left;">1562.17m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">钱塘区</div>
+                        <div style="width:81px; float:left;">5套</div>
+                        <div style="width:81px; float:left;">639.1m²</div>
+                        <div style="width:145px; float:left;">4套</div>
+                        <div style="width:145px; float:left;">571.51m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">富阳</div>
+                        <div style="width:81px; float:left;">6套</div>
+                        <div style="width:81px; float:left;">460.68m²</div>
+                        <div style="width:145px; float:left;">6套</div>
+                        <div style="width:145px; float:left;">460.68m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">桐庐</div>
+                        <div style="width:81px; float:left;">3套</div>
+                        <div style="width:81px; float:left;">308.34m²</div>
+                        <div style="width:145px; float:left;">3套</div>
+                        <div style="width:145px; float:left;">308.34m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">建德</div>
+                        <div style="width:81px; float:left;">7套</div>
+                        <div style="width:81px; float:left;">691.16m²</div>
+                        <div style="width:145px; float:left;">6套</div>
+                        <div style="width:145px; float:left;">651.64m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">淳安</div>
+                        <div style="width:81px; float:left;">5套</div>
+                        <div style="width:81px; float:left;">465.08m²</div>
+                        <div style="width:145px; float:left;">5套</div>
+                        <div style="width:145px; float:left;">465.08m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临安</div>
+                        <div style="width:81px; float:left;">14套</div>
+                        <div style="width:81px; float:left;">1670.85m²</div>
+                        <div style="width:145px; float:left;">12套</div>
+                        <div style="width:145px; float:left;">1614.28m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">合计</div>
+                        <div style="width:81px; float:left;">127套</div>
+                        <div style="width:81px; float:left;">13891.52m²</div>
+                        <div style="width:145px; float:left;">111套</div>
+                        <div style="width:145px; float:left;">12382.88m²</div>
+                    </div>
+
+                    <div class="list-item hehe"></div>
+                </div>
+                <div id="con4">
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">上城</div>
+                        <div style="width:81px; float:left;">13套</div>
+                        <div style="width:81px; float:left;">1923.85m²</div>
+                        <div style="width:145px; float:left;">8套</div>
+                        <div style="width:145px; float:left;">885.7m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">拱墅</div>
+                        <div style="width:81px; float:left;">10套</div>
+                        <div style="width:81px; float:left;">822.14m²</div>
+                        <div style="width:145px; float:left;">10套</div>
+                        <div style="width:145px; float:left;">822.14m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">西湖</div>
+                        <div style="width:81px; float:left;">16套</div>
+                        <div style="width:81px; float:left;">1500.7m²</div>
+                        <div style="width:145px; float:left;">10套</div>
+                        <div style="width:145px; float:left;">1228.99m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">滨江</div>
+                        <div style="width:81px; float:left;">2套</div>
+                        <div style="width:81px; float:left;">184.33m²</div>
+                        <div style="width:145px; float:left;">2套</div>
+                        <div style="width:145px; float:left;">184.33m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临平</div>
+                        <div style="width:81px; float:left;">17套</div>
+                        <div style="width:81px; float:left;">1720.47m²</div>
+                        <div style="width:145px; float:left;">17套</div>
+                        <div style="width:145px; float:left;">1720.47m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">萧山</div>
+                        <div style="width:81px; float:left;">16套</div>
+                        <div style="width:81px; float:left;">1907.55m²</div>
+                        <div style="width:145px; float:left;">16套</div>
+                        <div style="width:145px; float:left;">1907.55m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">余杭</div>
+                        <div style="width:81px; float:left;">13套</div>
+                        <div style="width:81px; float:left;">1597.27m²</div>
+                        <div style="width:145px; float:left;">12套</div>
+                        <div style="width:145px; float:left;">1562.17m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">钱塘区</div>
+                        <div style="width:81px; float:left;">5套</div>
+                        <div style="width:81px; float:left;">639.1m²</div>
+                        <div style="width:145px; float:left;">4套</div>
+                        <div style="width:145px; float:left;">571.51m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">富阳</div>
+                        <div style="width:81px; float:left;">6套</div>
+                        <div style="width:81px; float:left;">460.68m²</div>
+                        <div style="width:145px; float:left;">6套</div>
+                        <div style="width:145px; float:left;">460.68m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">桐庐</div>
+                        <div style="width:81px; float:left;">3套</div>
+                        <div style="width:81px; float:left;">308.34m²</div>
+                        <div style="width:145px; float:left;">3套</div>
+                        <div style="width:145px; float:left;">308.34m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">建德</div>
+                        <div style="width:81px; float:left;">7套</div>
+                        <div style="width:81px; float:left;">691.16m²</div>
+                        <div style="width:145px; float:left;">6套</div>
+                        <div style="width:145px; float:left;">651.64m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">淳安</div>
+                        <div style="width:81px; float:left;">5套</div>
+                        <div style="width:81px; float:left;">465.08m²</div>
+                        <div style="width:145px; float:left;">5套</div>
+                        <div style="width:145px; float:left;">465.08m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">临安</div>
+                        <div style="width:81px; float:left;">14套</div>
+                        <div style="width:81px; float:left;">1670.85m²</div>
+                        <div style="width:145px; float:left;">12套</div>
+                        <div style="width:145px; float:left;">1614.28m²</div>
+                    </div>
+
+                    <div class="list-item hehe">
+                        <div style="width:81px; float:left;">合计</div>
+                        <div style="width:81px; float:left;">127套</div>
+                        <div style="width:81px; float:left;">13891.52m²</div>
+                        <div style="width:145px; float:left;">111套</div>
+                        <div style="width:145px; float:left;">12382.88m²</div>
+                    </div>
+
+                    <div class="list-item hehe"></div>
+                </div>
+            </div>
+            <script>
+                var area1 = document.getElementById('scrollBox1');
+                var con3 = document.getElementById('con3');
+                var con4 = document.getElementById('con4');
+                con4.innerHTML = con3.innerHTML;
+
+                function scrollUp1() {
+                    if (area1.scrollTop >= con3.offsetHeight) {
+                        area1.scrollTop = 0;
+                    } else {
+                        area1.scrollTop++
+                    }
+                }
+
+                var time1 = 50;
+                var mytimer1 = setInterval(scrollUp1, time1);
+                area1.onmouseover = function () {
+                    clearInterval(mytimer1);
+                }
+                area1.onmouseout = function () {
+                    mytimer1 = setInterval(scrollUp1, time1);
+                }
+            </script>
+
+            <div class="total">
+                <span style="width: 51px;">&nbsp;&nbsp;&nbsp;&nbsp;合计</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="width:81px" class="esflj">
+ &nbsp; 127套</span><span style="width:81px">
+&nbsp;&nbsp;&nbsp;13891.52m²</span><span style="width:131px">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;111套</span><span style="width:131px">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12382.88m²</span><!--!--subfor---->
+
+            </div>
+        </div>
+        <div class="line">
+
+        </div>
+        <div class="E_table2  newtable2">
+            <div class="change_but">
+                <button class="in Secharts5">面积</button>
+                <button class="Secharts6">套数</button>
+            </div>
+            <div class="new_box">
+                <div class="echarts5 fgj" scrolling="no" width="420" height="220"
+                     style="margin-right:10px; display:inline;">
+                   
+
+                    <div id="main4"
+                         style="width: 570px; height: 720px; margin: 0px auto; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+                         _echarts_instance_="ec_1605150620981">
+                        <div style="position: relative; overflow: hidden; width: 570px; height: 720px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="570" height="720"
+                                    style="position: absolute; left: 0px; top: 0px; width: 570px; height: 720px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                        <div></div>
+                    </div>
+                    <script type="text/javascript">
+                        // 基于准备好的dom，初始化echarts图表
+                        var myChart4 = echarts.init(document.getElementById('main4'));
+                        var areas = ['上城', '拱墅', '西湖', '滨江', '萧山', '余杭','临平', '富阳', '临安', '桐庐', '淳安', '建德', '钱塘区', '合计',];
+                        var sets=new Array();
+                        sets.push(1923.85,  822.14,1500.7,184.33,1907.55,1597.27,639.1,460.68,1670.85,308.34,465.08,691.16,639.1,13891.52);
+                        if (areas[areas.length - 1] == undefined) {
+                            areas = areas.slice(0, areas.length - 1);
+                        }
+                        if (sets[sets.length - 1] == undefined) {
+                            sets = sets.slice(0, sets.length - 1);
+                        }
+
+                        var option = {
+                            title: {},
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data: ['成交面积']
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    mark: {show: false},
+                                    dataView: {show: false, readOnly: false},
+                                    magicType: {show: false, type: ['line', 'bar']},
+                                    restore: {show: false},
+                                    saveAsImage: {show: false}
+                                }
+                            },
+                            calculable: true,
+                            xAxis: [{
+                                type: 'value',
+                                boundaryGap: [0, 0.01]
+                            }],
+                            yAxis: [{
+                                type: 'category',
+                                data: areas.reverse(),
+                                splitLine: {
+                                    show: true
+                                },
+                            },
+                            ],
+                            series: [{
+                                name: '成交面积',
+                                type: 'bar',
+                                data: sets.reverse(),
+                                itemStyle: {
+                                    normal: {
+                                        color: '#698aab'
+                                    }
+                                }
+
+                            }
+
+                            ]
+                        };
+
+                        // 为echarts对象加载数据
+                        myChart4.setOption(option);
+                    </script>
+                    <style>
+                        .E_table2 {
+                            height: 400px;
+
+                            vertical-align: top;
+                        }
+
+                        .new_box {
+                            height: 365px;
+                            margin-top: 35px;
+                            overflow-y: scroll;
+                            overflow-x: hidden;
+                        }
+                    </style>
+                </div>
+                <div class="echarts6 fgj" scrolling="no" width="420" height="220"
+                     style="margin-right:10px; display:none;">
+                   
+
+                    <div id="main5"
+                         style="width: 570px; height: 720px; margin: 0px auto; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+                         _echarts_instance_="ec_1605150620982">
+                        <div style="position: relative; overflow: hidden; width: 570px; height: 720px; padding: 0px; margin: 0px; border-width: 0px;">
+                            <canvas data-zr-dom-id="zr_0" width="570" height="720"
+                                    style="position: absolute; left: 0px; top: 0px; width: 570px; height: 720px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                        <div></div>
+                    </div>
+                    <script type="text/javascript">
+                        // 基于准备好的dom，初始化echarts图表
+                        var myChart5 = echarts.init(document.getElementById('main5'));
+
+                        var yLeft = 8;
+                        var areas = ['上城', '拱墅', '西湖', '滨江', '萧山', '余杭','临平', '富阳', '临安', '桐庐', '淳安', '建德', '钱塘区', '合计',];
+                        var sets=new Array();
+                        sets.push(13,  10,16,2,16,13,5,6,14,3,5,7,5,127);
+                        if (areas[areas.length - 1] == undefined) {
+                            areas = areas.slice(0, areas.length - 1);
+                            yLeft = 35;
+                        }
+                        if (sets[sets.length - 1] == undefined) {
+                            sets = sets.slice(0, sets.length - 1);
+                        }
+
+                        var option = {
+                            title: {},
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data: ['成交套数']
+                            },
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    mark: {show: false},
+                                    dataView: {show: false, readOnly: false},
+                                    magicType: {show: false, type: ['line', 'bar']},
+                                    restore: {show: false},
+                                    saveAsImage: {show: false}
+                                }
+                            },
+                            calculable: true,
+                            xAxis: [{
+                                type: 'value',
+                                boundaryGap: [0, 0.01]
+                            }],
+                            yAxis: [{
+                                type: 'category',
+                                data: areas.reverse(),
+                                splitLine: {
+                                    show: true
+                                },
+                                axisLabel: {
+                                    margin: yLeft
+                                }
+                            },
+                            ],
+                            series: [{
+                                name: '成交套数',
+                                type: 'bar',
+                                data: sets.reverse(),
+                                itemStyle: {
+                                    normal: {
+                                        color: '#83ccd2'
+                                    }
+                                }
+
+                            }
+
+                            ]
+                        };
+
+                        // 为echarts对象加载数据
+                        myChart5.setOption(option);
+                    </script>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!--<div class="box4">
+        <a href="http://www.TMSF.com" target="_blank"><img src="../images/scxx/1907101014158787490.png"></a>
+        <a href="http://www.tmsf.com/xsweb" target="_blank"><img src="../images/scxx/1907101014159099952.png"></a>
+        <a href="http://www.tmsf.com/yhweb" target="_blank"><img src="../images/scxx/1907101014159637385.png"></a>
+        <a href="http://www.tmsf.com/fyweb" target="_blank"><img src="../images/scxx/1907101014160116659.png"></a>
+        <a href="http://www.tmsf.com/laweb" target="_blank"><img src="../images/scxx/1907101014160949164.png"></a>
+        <a href="http://www.tmsf.com/tlweb" target="_blank"><img src="../images/scxx/1907101014161375540.png"></a>
+        <a href="http://www.tmsf.com/jdweb" target="_blank"><img src="../images/scxx/1907101014160623597.png"></a>
+    </div>-->
+</div>
+
+<script type="text/javascript">
+    $(".Secharts1").click(function () {
+        $(this).addClass("in").siblings("button").removeClass("in");
+        $(".echarts1").show().siblings(".fgj").hide();
+    })
+    $(".Secharts2").click(function () {
+        $(this).addClass("in").siblings("button").removeClass("in");
+        $(".echarts2").show().siblings(".fgj").hide();
+    })
+    $(".Secharts3").click(function () {
+        $(this).addClass("in").siblings("button").removeClass("in");
+        $(".echarts3").show().siblings(".fgj").hide();
+    })
+    $(".Secharts4").click(function () {
+        $(this).addClass("in").siblings("button").removeClass("in");
+        $(".echarts4").show().siblings(".fgj").hide();
+    })
+    $(".Secharts5").click(function () {
+        $(this).addClass("in").siblings("button").removeClass("in");
+        $(".echarts5").show().siblings(".fgj").hide();
+    })
+    $(".Secharts6").click(function () {
+        $(this).addClass("in").siblings("button").removeClass("in");
+        $(".echarts6").show().siblings(".fgj").hide();
+    })
+    $(".question").mousemove(function(){
+        $(this).parent().parent().find(".tipPop").show();
+    })
+    $(".question").mouseleave(function(){
+        $(this).parent().parent().find(".tipPop").hide();
+    })
+</script>
+
+</body>
