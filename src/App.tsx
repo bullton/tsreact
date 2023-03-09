@@ -2,9 +2,12 @@ import React from "react";
 // import logo from "./logo.svg";
 import logo from './assets/images/logo.svg';
 import styles from "./App.module.css";
-import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
+import { Layout, Typography, Input, Menu, Button, Dropdown, Table } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import type { MenuProps } from 'antd';
+import type { TableProps } from 'antd';
+import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
+import DataType from "./componments/housing";
 
 const items: MenuProps['items'] = [
   {
@@ -23,7 +26,7 @@ function App() {
       {/* top-header */}
       <div className={styles["top-header"]}>
         <div className={styles.inner} >
-          <Typography.Text className={styles.text}>让旅游更幸福</Typography.Text>
+          <Typography.Text className={styles.text}>Big data</Typography.Text>
           <Dropdown.Button
             className={styles.drop}
             style={{ marginLeft: 15 }}
@@ -42,7 +45,7 @@ function App() {
         <Layout.Header className={styles["main-header"]}>
           <img src={logo} alt="logo" className={styles["App-logo"]} />
           <Typography.Title level={3} className={styles.title}>
-            慕课旅游网
+            牛数据
           </Typography.Title>
           <Input.Search
             placeholder="请输入旅游目的地、主题、或关键字"
@@ -53,7 +56,7 @@ function App() {
           mode={"horizontal"}
           className={styles["main-menu"]}
           items={[
-            { key: "1", label: "旅游首页" },
+            { key: "1", label: "杭州二手房交易数据" },
             { key: "2", label: "周末游" },
             { key: "3", label: "跟团游" },
             { key: "4", label: "自由行" },
@@ -72,9 +75,12 @@ function App() {
           ]}
         />
       </div>
+      <Layout.Content>
+        <DataType />
+      </Layout.Content>
       <Layout.Footer>
         <Typography.Title level={3} style={{ textAlign: "center" }}>
-          版权所有 @ React 旅游网
+          版权所有 @ Neil
         </Typography.Title>
       </Layout.Footer>
     </div>

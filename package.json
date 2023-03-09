@@ -16,7 +16,9 @@
     "cheerio": "^1.0.0-rc.12",
     "date-utils": "^1.2.21",
     "fs": "^0.0.1-security",
+    "http-proxy-middleware": "^2.0.6",
     "iconv-lite": "^0.6.3",
+    "lodash": "^4.17.21",
     "log4js": "^6.9.0",
     "moment": "^2.29.4",
     "mongoose": "^7.0.1",
@@ -52,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "typescript-plugin-css-modules": "^4.2.2"
   }
 }
