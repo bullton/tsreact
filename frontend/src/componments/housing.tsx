@@ -50,6 +50,7 @@ const DataTable: React.FC = () => {
   useEffect(() => {
     const url = `/api/house`;
     axios.get(url).then(res=>{
+      res.data.sort((a: any, b:any) => b.dateUnix - a.dateUnix);
       setDataSource(res.data);
       const groupedDataByDate = lodash.groupBy(res.data, (item) => item.date);
       const dateList = Object.keys(groupedDataByDate).map((item) => ({text: item, value: item}));
@@ -67,6 +68,8 @@ const DataTable: React.FC = () => {
           acc.quantity = (acc.quantity || 0) + parseInt(cur.quantity);
           return acc;
         }, {city: '合计', district: '合计'});
+        total.square = `${total.square} m²`;
+        total.quantity = `${total.quantity} 套`;
         districtData.push(total);
         return districtData;
       });
