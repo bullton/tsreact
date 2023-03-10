@@ -1,6 +1,6 @@
 const axios = require('axios');
 const myCheerio = require('cheerio');
-const {houseBargainModel} = require('../backend/models/houseModel');
+const {houseBargainModel} = require('../models/houseModel');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
