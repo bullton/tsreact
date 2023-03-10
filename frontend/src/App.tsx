@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import {
   DesktopOutlined,
   FileOutlined,
+  HomeOutlined,
+  CreditCardOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Row, Col } from 'antd';
 import {Housing} from "./componments";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -29,15 +31,18 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
+  // getItem('Option 1', '1', <PieChartOutlined />),
+  // getItem('Option 2', '2', <DesktopOutlined />),
+  getItem('房产数据', 'sub1', <HomeOutlined />, [
+    getItem('杭州二手房交易数据', '3'),
+    getItem('杭州新房交易数据', '4'),
     getItem('Alex', '5'),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem('信用卡数据', 'sub2', <CreditCardOutlined />, [
+    getItem('中信MCC积分查询', '6'),
+    getItem('信用卡管理', '8')
+  ]),
+  // getItem('Files', '9', <FileOutlined />),
 ];
 
 const App: React.FC = () => {
@@ -63,7 +68,22 @@ const App: React.FC = () => {
             <Housing />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>版权所有 @ Neil</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          <Row gutter={16}>
+            <Col className="gutter-row" span={6}>
+              <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">Jenkins</a>
+            </Col>
+            <Col className="gutter-row" span={6}>
+              <a href="http://bullton.eicp.net:5000" target="_blank" rel="noopener noreferrer">群晖首页</a>
+            </Col>
+            <Col className="gutter-row" span={6}>
+              <a href="http://bullton.eicp.net:5080/photo" target="_blank" rel="noopener noreferrer">相册</a>
+            </Col>
+            <Col className="gutter-row" span={6}>
+              <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">Jenkins</a>
+            </Col>
+          </Row>
+        </Footer>
       </Layout>
     </Layout>
   );
