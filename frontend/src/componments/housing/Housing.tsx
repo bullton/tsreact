@@ -6,6 +6,7 @@ import axios from 'axios';
 import lodash from 'lodash';
 
 interface DataType {
+  _id: string;
   city: string;
   district: string;
   bargainType: string;
@@ -23,6 +24,7 @@ export const Housing: React.FC = () => {
   const [dailyData, setDaily] = useState<DataType[]> ([]);
   const [dateList, setDateList] = useState<any[]> ([]);
   const [districtList, setDistrictList] = useState<any[]> ([]);
+  const [cities, setCities] = useState<any[]> ([]);
 
 
   const handleChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
@@ -48,37 +50,61 @@ export const Housing: React.FC = () => {
   };
   //items.sort((a, b) => a.dateUnix -b.dateUnix).pop()
   useEffect(() => {
-    const url = `/api/house`;
+    console.log('.........................');
+    const url = `/api/house?houseType=住宅`;
     axios.get(url).then(res=>{
       res.data.sort((a: any, b:any) => b.dateUnix - a.dateUnix);
       setDataSource(res.data);
-      const groupedDataByDate = lodash.groupBy(res.data, (item) => item.date);
-      const dateList = Object.keys(groupedDataByDate).map((item) => ({text: item, value: item}));
-      const daily = Object.values(groupedDataByDate).map((items) => {
-        const groupByDistrict = lodash.groupBy(items, (item) => item.district);
-        const districtData = Object.values(groupByDistrict).map((items) => {
-          return items.sort((a, b) => a.dateUnix -b.dateUnix).pop();
-        }); //[{D1d1}, {D1d2}]
-        const total = districtData.reduce((acc, cur) => {
-          acc.date = cur.date;
-          acc.dateUnix = cur.dateUnix;
-          acc.bargainType = cur.bargainType;
-          acc.houseType = cur.houseType;
-          acc.square = (acc.square || 0) + parseFloat(cur.square);
-          acc.quantity = (acc.quantity || 0) + parseInt(cur.quantity);
-          return acc;
-        }, {city: '合计', district: '合计'});
-        total.square = `${total.square} m²`;
-        total.quantity = `${total.quantity} 套`;
-        districtData.push(total);
-        return districtData;
-      });
-      const newDaily = lodash.flatten(daily);
-      const districtSet = newDaily.reduce((acc, cur) => {
+      let dateList = Array.from(res.data.reduce((acc:any, cur:any) => {
+        acc.add(cur.date);
+        return acc;
+      }, new Set()));
+      dateList = dateList.map((item:any) => ({text: item, value: item}));
+      console.log('dateList', dateList);
+      let districtList = Array.from(res.data.reduce((acc:any, cur:any) => {
         acc.add(cur.district);
         return acc;
-      }, new Set());
-      const districtList = Array.from(districtSet).map((item) => ({text: item, value: item}));
+      }, new Set()));
+      districtList = districtList.map((item:any) => ({text: item, value: item}));
+      console.log('districtList', districtList);
+      const groupByCity = lodash.groupBy(res.data, (item) => item.city);
+      const cities = Object.keys(groupByCity).map((item) => ({text: item, value: item}));
+      console.log('cities', cities);
+      const newDaily:any = [];
+      cities.forEach((city: any) => {
+        const groupedDataByDate = lodash.groupBy(groupByCity[city.value], (item) => item.date);
+        console.log('groupedDataByDate', groupedDataByDate);
+        const daily = Object.values(groupedDataByDate).map((items) => {
+          const groupByDistrict = lodash.groupBy(items, (item) => item.district);
+          const districtData = Object.values(groupByDistrict).map((items) => {
+            return items.sort((a, b) => a.dateUnix -b.dateUnix).pop();
+          }); //[{D1d1}, {D1d2}]
+          if (city.value === '杭州' || city.value === '深圳') {
+            const total = districtData.reduce((acc, cur) => {
+              acc.date = cur.date;
+              acc.dateUnix = cur.dateUnix;
+              acc.bargainType = cur.bargainType;
+              acc.houseType = cur.houseType;
+              acc.square = (acc.square || 0) + parseFloat(cur.square);
+              acc.quantity = (acc.quantity || 0) + parseInt(cur.quantity);
+              return acc;
+            }, {city: city.value, district: '全市'});
+            total.square = `${total.square}m²`;
+            total.quantity = `${total.quantity}套`;
+            districtData.push(total);
+          }
+          return districtData;
+        });
+        console.log('daily', daily);
+        newDaily.push(...(lodash.flatten(daily)));
+        // const districtSet = newDaily.reduce((acc, cur) => {
+        //   acc.add(cur.district);
+        //   return acc;
+        // }, new Set());
+        // const districtList = Array.from(districtSet).map((item) => ({text: item, value: item}));
+      });
+      
+      setCities(cities);
       setDaily(newDaily);
       setDistrictList(districtList);
       setDateList(dateList);
@@ -90,9 +116,7 @@ export const Housing: React.FC = () => {
       title: 'City',
       dataIndex: 'city',
       key: 'city',
-      filters: [
-        { text: '杭州', value: '杭州' }
-      ],
+      filters: cities,
       filteredValue: filteredInfo.city || null,
       onFilter: (value: any, record: DataType) => record.city.includes(value),
       sorter: (a, b) => a.city.length - b.city.length,
@@ -138,7 +162,7 @@ export const Housing: React.FC = () => {
       ellipsis: true,
     }
   ];
-
+  console.log(dailyData);
   return (
     <>
       <Space style={{ marginBottom: 16 }}>
@@ -146,7 +170,7 @@ export const Housing: React.FC = () => {
         <Button onClick={clearFilters}>Clear filters</Button>
         <Button onClick={clearAll}>Clear filters and sorters</Button>
       </Space>
-      <Table columns={columns} dataSource={dailyData} onChange={handleChange} pagination={false}/>
+      <Table columns={columns} dataSource={dailyData} onChange={handleChange} pagination={false} />
     </>
   );
 };

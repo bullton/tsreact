@@ -15,7 +15,7 @@ interface State {
     mccType: string
 }
 
-class Mcc extends React.Component<Props, State> {
+export class MccSearch extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -29,7 +29,7 @@ class Mcc extends React.Component<Props, State> {
     }
 
     checkMerchantData = (totalMerchantCode: string) : void => {
-        const url = `http://192.168.248.185:7001/api/check/merchant_code?totalMerchantCode=${totalMerchantCode}`
+        const url = `http://bullton.eicp.net:3001/api/check/merchant_code?totalMerchantCode=${totalMerchantCode}`
         axios.get(url).then(res=>{
           const {totalMerchantCode, name = 'mcc不存在', bank = 'mcc不存在'} = res.data || {};
           this.setState({totalMerchantCode, name, bank});
@@ -37,7 +37,7 @@ class Mcc extends React.Component<Props, State> {
     }
 
     checkMccValid = (mcc: string) : void => {
-        const url = `http://192.168.248.185:7001/api/check/mcc?mcc=${mcc}`
+        const url = `http://bullton.eicp.net:3001/api/check/mcc?mcc=${mcc}`
         axios.get(url).then(res=>{
           const {code: mcc, valid: mccStatus = '无效', type: mccType = 'mcc不存在' } = res.data || {};
           console.log(res.data);
@@ -76,5 +76,3 @@ class Mcc extends React.Component<Props, State> {
         </div>
     }
 }
-
-export default Mcc;

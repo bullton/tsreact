@@ -1,1 +1,2 @@
-export * from './housing'
+export * from './housing';
+export * from './bank';
