@@ -20,11 +20,11 @@ interface DataType {
 export const Housing: React.FC = () => {
   const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({});
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
-  const [dataSource, setDataSource] = useState<DataType[]> ([]);
-  const [dailyData, setDaily] = useState<DataType[]> ([]);
-  const [dateList, setDateList] = useState<any[]> ([]);
-  const [districtList, setDistrictList] = useState<any[]> ([]);
-  const [cities, setCities] = useState<any[]> ([]);
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
+  const [dailyData, setDaily] = useState<DataType[]>([]);
+  const [dateList, setDateList] = useState<any[]>([]);
+  const [districtList, setDistrictList] = useState<any[]>([]);
+  const [cities, setCities] = useState<any[]>([]);
 
 
   const handleChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
@@ -50,34 +50,33 @@ export const Housing: React.FC = () => {
   };
   //items.sort((a, b) => a.dateUnix -b.dateUnix).pop()
   useEffect(() => {
-    console.log('.........................');
     const url = `/api/house?houseType=住宅`;
-    axios.get(url).then(res=>{
-      res.data.sort((a: any, b:any) => b.dateUnix - a.dateUnix);
+    axios.get(url).then(res => {
+      res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
       setDataSource(res.data);
-      let dateList = Array.from(res.data.reduce((acc:any, cur:any) => {
+      let dateList = Array.from(res.data.reduce((acc: any, cur: any) => {
         acc.add(cur.date);
         return acc;
       }, new Set()));
-      dateList = dateList.map((item:any) => ({text: item, value: item}));
+      dateList = dateList.map((item: any) => ({ text: item, value: item }));
       console.log('dateList', dateList);
-      let districtList = Array.from(res.data.reduce((acc:any, cur:any) => {
+      let districtList = Array.from(res.data.reduce((acc: any, cur: any) => {
         acc.add(cur.district);
         return acc;
       }, new Set()));
-      districtList = districtList.map((item:any) => ({text: item, value: item}));
+      districtList = districtList.map((item: any) => ({ text: item, value: item }));
       console.log('districtList', districtList);
       const groupByCity = lodash.groupBy(res.data, (item) => item.city);
-      const cities = Object.keys(groupByCity).map((item) => ({text: item, value: item}));
+      const cities = Object.keys(groupByCity).map((item) => ({ text: item, value: item }));
       console.log('cities', cities);
-      const newDaily:any = [];
+      const newDaily: any = [];
       cities.forEach((city: any) => {
         const groupedDataByDate = lodash.groupBy(groupByCity[city.value], (item) => item.date);
         console.log('groupedDataByDate', groupedDataByDate);
         const daily = Object.values(groupedDataByDate).map((items) => {
           const groupByDistrict = lodash.groupBy(items, (item) => item.district);
           const districtData = Object.values(groupByDistrict).map((items) => {
-            return items.sort((a, b) => a.dateUnix -b.dateUnix).pop();
+            return items.sort((a, b) => a.dateUnix - b.dateUnix).pop();
           }); //[{D1d1}, {D1d2}]
           if (city.value === '杭州' || city.value === '深圳') {
             const total = districtData.reduce((acc, cur) => {
@@ -88,7 +87,7 @@ export const Housing: React.FC = () => {
               acc.square = (acc.square || 0) + parseFloat(cur.square);
               acc.quantity = (acc.quantity || 0) + parseInt(cur.quantity);
               return acc;
-            }, {city: city.value, district: '全市'});
+            }, { city: city.value, district: '全市' });
             total.square = `${total.square}m²`;
             total.quantity = `${total.quantity}套`;
             districtData.push(total);
@@ -103,7 +102,7 @@ export const Housing: React.FC = () => {
         // }, new Set());
         // const districtList = Array.from(districtSet).map((item) => ({text: item, value: item}));
       });
-      
+
       setCities(cities);
       setDaily(newDaily);
       setDistrictList(districtList);
@@ -143,12 +142,12 @@ export const Housing: React.FC = () => {
       ellipsis: true,
     },
     {
-        title: '面积',
-        dataIndex: 'square',
-        key: 'square',
-        sorter: (a, b) => parseFloat(a.square) - parseFloat(a.square),
-        sortOrder: sortedInfo.columnKey === 'square' ? sortedInfo.order : null,
-        ellipsis: true,
+      title: '面积',
+      dataIndex: 'square',
+      key: 'square',
+      sorter: (a, b) => parseFloat(a.square) - parseFloat(a.square),
+      sortOrder: sortedInfo.columnKey === 'square' ? sortedInfo.order : null,
+      ellipsis: true,
     },
     {
       title: '日期',

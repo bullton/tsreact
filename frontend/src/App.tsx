@@ -7,11 +7,11 @@ const App: React.FC = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} /><Route/>
-          <Route path="/mcc" element={<Mcc />} /><Route/>
+          <Route path="/" element={<HomePage />} /><Route />
+          <Route path="/mcc" element={<Mcc />} /><Route />
         </Routes>
       </BrowserRouter>
-      
+
     </div>
   );
 };

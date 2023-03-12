@@ -1,19 +1,13 @@
 import React from "react";
-import {MccSearch} from "../../componments";
+import { MccSearch } from "../../componments";
+import { MainLayout } from "../../layouts";
 
-// interface Props {
-
-// }
-
-// interface State {
-//     collapsed: boolean
-// }
-
-
-export class Mcc extends React.Component {
-    render(): React.ReactNode {
-        return (<div>
-            <MccSearch />
-        </div>)
-    }
+export const Mcc: React.FC = () => {
+    return (
+        <>
+            <MainLayout>
+                <MccSearch />
+            </MainLayout>
+        </>
+    );
 }

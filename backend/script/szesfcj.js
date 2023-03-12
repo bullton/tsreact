@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {houseBargainModel} = require('../models/houseModel');
+const { houseBargainModel } = require('../models/houseModel');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -26,9 +26,9 @@ const headers = {
 
 
 async function getHttp(url) {
-    const res = await axios({url, method: 'post', headers, timeout: 10000});
+    const res = await axios({ url, method: 'post', headers, timeout: 10000 });
     console.log('res', JSON.stringify(res.data));
-    const {xmlDateMonth, xmlDateDay, dataTs, dataMj} = res.data.data;
+    const { xmlDateMonth, xmlDateDay, dataTs, dataMj } = res.data.data;
     // const dataTsObj = dataTs.reduce((acc, cur) => {
     //     acc[cur.name] = cur.value;
     //     return acc;
@@ -41,17 +41,17 @@ async function getHttp(url) {
 
     const updateData = dataTs.map((item) => {
         const update = {
-            "city" : "深圳",
-            "district" : item.name,
-            "bargainType" : "二手",
-            "houseType" : "住宅",
-            "date" : date,
-            "dateUnix" : moment(new Date(date)).unix(),
-            "square" : `${dataMjObj[item.name]}m²`,
-            "quantity" : `${item.value}套`
-        }; 
-        const filter = {"city" : "深圳", "district" : item.name, "houseType" : "住宅", "date" : xmlDateDay};
-        return {updateOne: {filter, update, upsert: true}};
+            "city": "深圳",
+            "district": item.name,
+            "bargainType": "二手",
+            "houseType": "住宅",
+            "date": date,
+            "dateUnix": moment(new Date(date)).unix(),
+            "square": `${dataMjObj[item.name]}m²`,
+            "quantity": `${item.value}套`
+        };
+        const filter = { "city": "深圳", "district": item.name, "houseType": "住宅", "date": xmlDateDay };
+        return { updateOne: { filter, update, upsert: true } };
     });
     // const updateData = res.data.map((item) => {
     //     const update = {
