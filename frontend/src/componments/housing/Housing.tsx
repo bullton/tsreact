@@ -150,7 +150,6 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
           // 指定映射后的颜色
           range: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#c564be'],
         });
-      console.log(chartData.reverse());
       setCities(cities);
       setDaily(newDaily);
       setDistrictList(districtList);
