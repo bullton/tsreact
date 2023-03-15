@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import type { TableProps } from 'antd';
-import { Button, Space, Table } from 'antd';
+import { Button, Space, Table, Row, Col, } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
+import { Chart } from '@antv/g2';
 import axios from 'axios';
 import lodash from 'lodash';
 
@@ -17,7 +18,28 @@ interface DataType {
   quantity: string;
 }
 
-export const Housing: React.FC = () => {
+interface HouseProps {
+  city: string | undefined,
+  date: string | undefined,
+  houseType: string | undefined
+  pagesize: number
+}
+
+const data = [
+  { Date: 'Sports', sold: 275 },
+  { Date: 'Strategy', sold: 115 },
+  { Date: 'Action', sold: 120 },
+  { Date: 'Shooter', sold: 350 },
+  { Date: 'Other', sold: 150 },
+];
+
+
+
+// 渲染可视化
+
+
+export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize }) => {
+  console.log('city', city, houseType);
   const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({});
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
   const [dataSource, setDataSource] = useState<DataType[]>([]);
@@ -50,7 +72,9 @@ export const Housing: React.FC = () => {
   };
   //items.sort((a, b) => a.dateUnix -b.dateUnix).pop()
   useEffect(() => {
-    const url = `/api/house?houseType=住宅`;
+    let url = `/api/house?houseType=${houseType}`;
+    city && (url += `&city=${city}`);
+    const chartData: object[] = [];
     axios.get(url).then(res => {
       res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
       setDataSource(res.data);
@@ -91,6 +115,7 @@ export const Housing: React.FC = () => {
             total.square = `${total.square}m²`;
             total.quantity = `${total.quantity}套`;
             districtData.push(total);
+            chartData.push({ date: total.date, sold: parseInt(total.quantity) });
           }
           return districtData;
         });
@@ -102,11 +127,35 @@ export const Housing: React.FC = () => {
         // }, new Set());
         // const districtList = Array.from(districtSet).map((item) => ({text: item, value: item}));
       });
+      // 初始化图表实例
+      const chart = new Chart({
+        container: 'container',
+      });
 
+      // 声明可视化
+      chart
+        .interval() // 创建一个 Interval 标记
+        .data(chartData.reverse()) // 绑定数据
+        .encode('x', 'date') // 编码 x 通道
+        .encode('y', 'sold') // 编码 y 通道
+        .label({
+          text: 'sold', // 指定绑定的字段
+          style: {
+            fill: '#fff', // 指定样式
+            dy: 5,
+          },
+        })
+        .encode('color', 'sold') // genre 是一个离散数据
+        .scale('color', {
+          // 指定映射后的颜色
+          range: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#c564be'],
+        });
+      console.log(chartData.reverse());
       setCities(cities);
       setDaily(newDaily);
       setDistrictList(districtList);
       setDateList(dateList);
+      chart.render();
     });
   }, []);
 
@@ -115,17 +164,19 @@ export const Housing: React.FC = () => {
       title: 'City',
       dataIndex: 'city',
       key: 'city',
-      filters: cities,
-      filteredValue: filteredInfo.city || null,
-      onFilter: (value: any, record: DataType) => record.city.includes(value),
-      sorter: (a, b) => a.city.length - b.city.length,
-      sortOrder: sortedInfo.columnKey === 'city' ? sortedInfo.order : null,
+      // width: 60,
+      // filters: cities,
+      // filteredValue: filteredInfo.city || null,
+      // onFilter: (value: any, record: DataType) => record.city.includes(value),
+      // sorter: (a, b) => a.city.length - b.city.length,
+      // sortOrder: sortedInfo.columnKey === 'city' ? sortedInfo.order : null,
       ellipsis: true,
     },
     {
       title: '区域',
       dataIndex: 'district',
       key: 'district',
+      // width: 90,
       filters: districtList,
       filteredValue: filteredInfo.district || null,
       onFilter: (value: any, record: DataType) => record.district.includes(value),
@@ -137,6 +188,7 @@ export const Housing: React.FC = () => {
       title: '套数',
       dataIndex: 'quantity',
       key: 'quantity',
+      // width: 60,
       sorter: (a, b) => parseInt(a.quantity) - parseInt(b.quantity),
       sortOrder: sortedInfo.columnKey === 'quantity' ? sortedInfo.order : null,
       ellipsis: true,
@@ -145,6 +197,7 @@ export const Housing: React.FC = () => {
       title: '面积',
       dataIndex: 'square',
       key: 'square',
+      // width: 120,
       sorter: (a, b) => parseFloat(a.square) - parseFloat(a.square),
       sortOrder: sortedInfo.columnKey === 'square' ? sortedInfo.order : null,
       ellipsis: true,
@@ -153,6 +206,7 @@ export const Housing: React.FC = () => {
       title: '日期',
       dataIndex: 'date',
       key: 'date',
+      // width: 90,
       filters: dateList,
       filteredValue: filteredInfo.date || null,
       onFilter: (value: any, record: DataType) => record.date.includes(value),
@@ -164,12 +218,21 @@ export const Housing: React.FC = () => {
   console.log(dailyData);
   return (
     <>
-      <Space style={{ marginBottom: 16 }}>
-        <Button onClick={setAgeSort}>套数排序</Button>
-        <Button onClick={clearFilters}>Clear filters</Button>
-        <Button onClick={clearAll}>Clear filters and sorters</Button>
-      </Space>
-      <Table columns={columns} dataSource={dailyData} onChange={handleChange} pagination={false} />
+      <Row>
+        <Col className="gutter-row" span={24} style={{ padding: 24 }}>
+          <Space style={{ marginBottom: 16 }}>
+            <Button onClick={setAgeSort}>套数排序</Button>
+            <Button onClick={clearFilters}>Clear filters</Button>
+            <Button onClick={clearAll}>Clear filters and sorters</Button>
+          </Space>
+          <Table columns={columns} dataSource={dailyData} onChange={handleChange} pagination={{ defaultPageSize: pagesize }} size="small" />
+        </Col>
+      </Row>
+      <Row>
+        <Col className="gutter-row" span={24} style={{ padding: 24 }}>
+          <div id='container'></div>
+        </Col>
+      </Row>
     </>
   );
 };

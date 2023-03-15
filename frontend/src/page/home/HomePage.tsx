@@ -6,7 +6,7 @@ export const HomePage: React.FC = () => {
     return (
         <>
             <MainLayout>
-                <Housing />
+                <Housing city={undefined} date={undefined} houseType="住宅" pagesize={50}/>
             </MainLayout>
         </>
     );

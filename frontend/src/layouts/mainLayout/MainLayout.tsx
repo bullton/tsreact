@@ -38,17 +38,26 @@ function getItem(
 const items: MenuItem[] = [
     // getItem('Option 1', '1', <PieChartOutlined />),
     // getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('房产数据', 'sub1', <HomeOutlined />, [
+    getItem('房产数据', '房产数据', <HomeOutlined />, [
         getItem('杭州二手房交易数据', '3'),
-        getItem('杭州新房交易数据', '4'),
+        getItem('深圳二手房交易数据', '4'),
         getItem('Alex', '5'),
     ]),
-    getItem('信用卡数据', 'sub2', <CreditCardOutlined />, [
+    getItem('信用卡数据', '信用卡', <CreditCardOutlined />, [
         getItem('中信MCC积分查询', '6'),
         getItem('信用卡管理', '8')
     ]),
     // getItem('Files', '9', <FileOutlined />),
 ];
+
+const menuMap:any = {
+    house: {key: '房产数据', label: '房产数据'},
+    hz2s: {key: '3', label: '杭州二手房交易数据'},
+    sz2s: {key: '4', label: '深圳二手房交易数据'},
+    bank: {key: '信用卡', label: '信用卡数据'},
+    mcc: {key: '6', label: 'MCC查询'},
+    '/': {key: '0', label: '首页'}
+}
 
 interface PropsTypes {
     children: React.ReactNode;
@@ -56,22 +65,28 @@ interface PropsTypes {
 
 export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
     const navigate = useNavigate();
-    const location = useLocation();
+    const {pathname} = useLocation();
+    const path = pathname.split('/').filter((item) => item);
+    if (!path.length) {
+        path.push('/');
+    }
     const params = useParams();
-
+    console.log('params', params);
     const [collapsed, setCollapsed] = useState<boolean>(false);
     // const [menuCollapsed, setMenuCollapsed] = useState<boolean>(false);
     // const [, setCollapsed] = useState<boolean>(false);
+    // const [breadcrumbItems, setBreadcrumbItems] = useState<string[]>([menuMap[path[0]]['label'], menuMap[path[1]]['label']]);
 
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
         switch(e.key) {
-            case '3': navigate("/");break;
-            case '6': navigate("/mcc");break;
+            case '3': navigate("/house/hz2s");break;
+            case '4': navigate("/house/sz2s");break;
+            case '6': navigate("/bank/mcc");break;
             default: navigate("/");
         }
       };
-
+    // console.log('path', menuMap[path[1]]['key'], menuMap[path[0]]['key']);
     return (
         <>
             <Layout style={{ minHeight: '100vh' }}>
@@ -84,21 +99,18 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                             </Typography.Title>
                         </span>
                     </div>
-                    <Menu theme="dark" defaultSelectedKeys={['6']} defaultOpenKeys={['sub2']} mode="inline" items={items} onClick={onClick}/>
+                    <Menu theme="dark" defaultSelectedKeys={[path[1]?menuMap[path[1]]['key']:undefined]} defaultOpenKeys={[menuMap[path[0]]['key']]} mode="inline" items={items} onClick={onClick}/>
                 </Sider>
                 <Layout className="site-layout">
                     <Header style={{ padding: 0, background: 'rgba(255, 255, 255, 0.2)' }} />
                     <Content style={{ margin: '0 16px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>User</Breadcrumb.Item>
-                            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                        </Breadcrumb>
+                        <Breadcrumb style={{ margin: '16px 0' }} items={path.map((item) => ({title: menuMap[item]['label']}))} />
                         <div style={{ padding: 24, minHeight: 360, background: 'rgba(255, 255, 255, 0.2)' }}>
                             {children}
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                        <Row gutter={16}>
+                        <Row>
                             <Col className="gutter-row" span={6}>
                                 <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">Jenkins</a>
                             </Col>
