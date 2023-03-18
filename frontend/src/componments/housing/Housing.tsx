@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import type { TableProps } from 'antd';
-import { Button, Space, Table, Row, Col, } from 'antd';
+import { Button, Space, Table, Row, Col, Divider} from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
-import { Chart } from '@antv/g2';
+import { intervalChart } from '../../common';
+import {ArrowUpOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
+import moment from 'moment';
 
 interface DataType {
   _id: string;
@@ -24,19 +26,6 @@ interface HouseProps {
   houseType: string | undefined
   pagesize: number
 }
-
-const data = [
-  { Date: 'Sports', sold: 275 },
-  { Date: 'Strategy', sold: 115 },
-  { Date: 'Action', sold: 120 },
-  { Date: 'Shooter', sold: 350 },
-  { Date: 'Other', sold: 150 },
-];
-
-
-
-// 渲染可视化
-
 
 export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize }) => {
   console.log('city', city, houseType);
@@ -74,7 +63,9 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
   useEffect(() => {
     let url = `/api/house?houseType=${houseType}`;
     city && (url += `&city=${city}`);
-    const chartData: object[] = [];
+    const chartData: any[] = [];
+    const squareChartData: object[] = [];
+    const monthlyQuantity: object[] = [];
     axios.get(url).then(res => {
       res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
       setDataSource(res.data);
@@ -112,49 +103,41 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
               acc.quantity = (acc.quantity || 0) + parseInt(cur.quantity);
               return acc;
             }, { city: city.value, district: '全市' });
-            total.square = `${total.square}m²`;
+            total.square = `${total.square.toFixed(2)}m²`;
             total.quantity = `${total.quantity}套`;
             districtData.push(total);
-            chartData.push({ date: total.date, sold: parseInt(total.quantity) });
+            chartData.push({ date: total.date, sold: parseInt(total.quantity), city: total.city });
+            squareChartData.push({ date: total.date, sold: parseFloat(total.square), city: total.city });
           }
           return districtData;
         });
         console.log('daily', daily);
         newDaily.push(...(lodash.flatten(daily)));
+        const groupByMonthData = lodash.groupBy(chartData.filter((item) => item.city === city.value), (item) => moment(new Date(item.date)).format('YYYYMM'));
+        console.log('groupByMonthData', groupByMonthData);
+        const monthlyData = Object.keys(groupByMonthData).map((key) => {
+          const monthTotal = groupByMonthData[key].reduce((acc, cur) => {
+            console.log(city.value, );
+            acc += cur.sold;
+            return acc;
+          }, 0);
+          return {monthTotal, month: key, city: city.value}
+        });
+        monthlyQuantity.push(...monthlyData);
         // const districtSet = newDaily.reduce((acc, cur) => {
         //   acc.add(cur.district);
         //   return acc;
         // }, new Set());
         // const districtList = Array.from(districtSet).map((item) => ({text: item, value: item}));
       });
-      // 初始化图表实例
-      const chart = new Chart({
-        container: 'container',
-      });
-
-      // 声明可视化
-      chart
-        .interval() // 创建一个 Interval 标记
-        .data(chartData.reverse()) // 绑定数据
-        .encode('x', 'date') // 编码 x 通道
-        .encode('y', 'sold') // 编码 y 通道
-        .label({
-          text: 'sold', // 指定绑定的字段
-          style: {
-            fill: '#fff', // 指定样式
-            dy: 5,
-          },
-        })
-        .encode('color', 'sold') // genre 是一个离散数据
-        .scale('color', {
-          // 指定映射后的颜色
-          range: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#c564be'],
-        });
+      console.log('monthlyQuantity', monthlyQuantity);
       setCities(cities);
       setDaily(newDaily);
       setDistrictList(districtList);
       setDateList(dateList);
-      chart.render();
+      intervalChart(chartData.reverse(), 'hz2squantity', 'date', 'sold', 'city');
+      intervalChart(squareChartData.reverse(), 'hz2ssquare', 'date', 'sold', 'city');
+      intervalChart(monthlyQuantity.reverse(), 'hz2smonthly', 'month', 'monthTotal', 'city');
     });
   }, []);
 
@@ -228,8 +211,13 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
         </Col>
       </Row>
       <Row>
-        <Col className="gutter-row" span={24} style={{ padding: 24 }}>
-          <div id='container'></div>
+        <Col className="gutter-row" span={24} style={{ padding: 0 }}>
+          <div id='hz2squantity' style={{height: 400}}></div>
+          <Divider plain><ArrowUpOutlined />{city}二手房日交易套数<ArrowUpOutlined /></Divider>
+          <div id='hz2ssquare' style={{height: 400}}></div>
+          <Divider plain><ArrowUpOutlined />{city}二手房日交易面积<ArrowUpOutlined /></Divider>
+          <div id='hz2smonthly' style={{height: 400}}></div>
+          <Divider plain><ArrowUpOutlined />{city}二手房月总数<ArrowUpOutlined /></Divider>
         </Col>
       </Row>
     </>

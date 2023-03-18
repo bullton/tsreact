@@ -105,7 +105,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                     <Header style={{ padding: 0, background: 'rgba(255, 255, 255, 0.2)' }} />
                     <Content style={{ margin: '0 16px' }}>
                         <Breadcrumb style={{ margin: '16px 0' }} items={path.map((item) => ({title: menuMap[item]['label']}))} />
-                        <div style={{ padding: 24, minHeight: 360, background: 'rgba(255, 255, 255, 0.2)' }}>
+                        <div style={{ padding: 24, background: 'rgba(255, 255, 255, 0.2)' }}>
                             {children}
                         </div>
                     </Content>
