@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.svg";
 import styles from "./MainLayout.module.css";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 // import styles from "./MainLayout.module.css";
 // import { Header, Footer } from "../../componments";
+import { useSelector } from "../../redux/hooks";
+// import { useSelector } from "react-redux";
 
 import {
     DesktopOutlined,
@@ -18,6 +20,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme, Row, Col, Typography, Button } from 'antd';
+import store from "../../redux/store";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -73,9 +76,18 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
     const params = useParams();
     console.log('params', params);
     const [collapsed, setCollapsed] = useState<boolean>(false);
+    // const [count, setCount] = useState<number>(0);
     // const [menuCollapsed, setMenuCollapsed] = useState<boolean>(false);
     // const [, setCollapsed] = useState<boolean>(false);
     // const [breadcrumbItems, setBreadcrumbItems] = useState<string[]>([menuMap[path[0]]['label'], menuMap[path[1]]['label']]);
+    const count = useSelector((state) => state.count);
+
+    // useEffect(() => {
+    //     store.subscribe(() => {
+    //         const storeState = store.getState()
+    //         setCount(storeState.count);
+    //     });
+    // }, []);
 
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
@@ -121,7 +133,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                                 <a href="http://bullton.eicp.net:5080/photo" target="_blank" rel="noopener noreferrer">相册</a>
                             </Col>
                             <Col className="gutter-row" span={6}>
-                                <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">Jenkins</a>
+                                <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">{count}</a>
                             </Col>
                         </Row>
                     </Footer>

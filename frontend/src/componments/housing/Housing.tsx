@@ -7,6 +7,15 @@ import {ArrowUpOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
 import moment from 'moment';
+import store from '../../redux/store';
+
+
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
+import {
+  CountActionTypes,
+  addCountActionCreator,
+} from "../../redux/count/countActions";
 
 interface DataType {
   _id: string;
@@ -37,6 +46,8 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
   const [districtList, setDistrictList] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
 
+  const dispatch = useDispatch();
+
 
   const handleChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
     console.log('Various parameters', pagination, filters, sorter);
@@ -59,6 +70,10 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
       columnKey: 'quantity',
     });
   };
+
+  const addCount = () => {
+    dispatch(addCountActionCreator(2));
+  }
   //items.sort((a, b) => a.dateUnix -b.dateUnix).pop()
   useEffect(() => {
     let url = `/api/house?houseType=${houseType}`;
@@ -206,6 +221,7 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
             <Button onClick={setAgeSort}>套数排序</Button>
             <Button onClick={clearFilters}>Clear filters</Button>
             <Button onClick={clearAll}>Clear filters and sorters</Button>
+            <Button onClick={addCount}>Add Count</Button>
           </Space>
           <Table columns={columns} dataSource={dailyData} onChange={handleChange} pagination={{ defaultPageSize: pagesize }} size="small" />
         </Col>
