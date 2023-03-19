@@ -8,19 +8,11 @@ import { useSelector } from "../../redux/hooks";
 // import { useSelector } from "react-redux";
 
 import {
-    DesktopOutlined,
-    FileOutlined,
     HomeOutlined,
-    CreditCardOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
+    CreditCardOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme, Row, Col, Typography, Button } from 'antd';
-import store from "../../redux/store";
+import { Breadcrumb, Layout, Menu, Row, Col, Typography } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -98,7 +90,6 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
             default: navigate("/");
         }
       };
-    // console.log('path', menuMap[path[1]]['key'], menuMap[path[0]]['key']);
     return (
         <>
             <Layout style={{ minHeight: '100vh' }}>

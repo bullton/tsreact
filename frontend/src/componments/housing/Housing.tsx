@@ -13,7 +13,7 @@ import store from '../../redux/store';
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import {
-  CountActionTypes,
+  // CountActionTypes,
   addCountActionCreator,
 } from "../../redux/count/countActions";
 
@@ -74,7 +74,7 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
   const addCount = () => {
     dispatch(addCountActionCreator(2));
   }
-  //items.sort((a, b) => a.dateUnix -b.dateUnix).pop()
+
   useEffect(() => {
     let url = `/api/house?houseType=${houseType}`;
     city && (url += `&city=${city}`);
