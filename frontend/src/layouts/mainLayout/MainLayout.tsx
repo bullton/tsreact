@@ -5,7 +5,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 // import styles from "./MainLayout.module.css";
 // import { Header, Footer } from "../../componments";
 import { useSelector } from "../../redux/hooks";
-// import { useSelector } from "react-redux";
+import { CountState } from "../../redux/count/slice";
 
 import {
     HomeOutlined,
@@ -72,8 +72,8 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
     // const [menuCollapsed, setMenuCollapsed] = useState<boolean>(false);
     // const [, setCollapsed] = useState<boolean>(false);
     // const [breadcrumbItems, setBreadcrumbItems] = useState<string[]>([menuMap[path[0]]['label'], menuMap[path[1]]['label']]);
-    const count = useSelector((state) => state.count);
-
+    const count = useSelector((state) => state.count.count);
+    console.log('type', typeof(count), count);
     // useEffect(() => {
     //     store.subscribe(() => {
     //         const storeState = store.getState()

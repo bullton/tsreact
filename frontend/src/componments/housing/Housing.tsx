@@ -7,15 +7,15 @@ import {ArrowUpOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
 import moment from 'moment';
-import store from '../../redux/store';
-
-
+// import store from '../../redux/store';
+import { countSlice } from '../../redux/count/slice';
+import { useSelector } from '../../redux/hooks';
 import { useDispatch } from "react-redux";
-import { Dispatch } from "redux";
-import {
-  // CountActionTypes,
-  addCountActionCreator,
-} from "../../redux/count/countActions";
+// import { Dispatch } from "redux";
+// import {
+//   // CountActionTypes,
+//   addCountActionCreator,
+// } from "../../redux/count/countActions";
 
 interface DataType {
   _id: string;
@@ -45,7 +45,7 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
   const [dateList, setDateList] = useState<any[]>([]);
   const [districtList, setDistrictList] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
-
+  const count = useSelector((state) => state.count);
   const dispatch = useDispatch();
 
 
@@ -72,7 +72,8 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
   };
 
   const addCount = () => {
-    dispatch(addCountActionCreator(2));
+    // dispatch(addCountActionCreator(2));
+    dispatch(countSlice.actions.addCount(20));
   }
 
   useEffect(() => {
