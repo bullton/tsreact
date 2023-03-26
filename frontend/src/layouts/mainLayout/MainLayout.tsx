@@ -5,7 +5,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 // import styles from "./MainLayout.module.css";
 // import { Header, Footer } from "../../componments";
 import { useSelector } from "../../redux/hooks";
-// import { useSelector } from "react-redux";
+import { CountState } from "../../redux/count/slice";
 
 import {
     HomeOutlined,
@@ -35,6 +35,7 @@ const items: MenuItem[] = [
     // getItem('Option 2', '2', <DesktopOutlined />),
     getItem('房产数据', '房产数据', <HomeOutlined />, [
         getItem('杭州二手房交易数据', '3'),
+        getItem('杭州二手房交易数据(住商)', '9'),
         getItem('深圳二手房交易数据', '4'),
         getItem('Alex', '5'),
     ]),
@@ -48,6 +49,7 @@ const items: MenuItem[] = [
 const menuMap:any = {
     house: {key: '房产数据', label: '房产数据'},
     hz2s: {key: '3', label: '杭州二手房交易数据'},
+    hz2szs: {key: '9', label: '杭州二手房交易数据(住商)'},
     sz2s: {key: '4', label: '深圳二手房交易数据'},
     bank: {key: '信用卡', label: '信用卡数据'},
     mcc: {key: '6', label: 'MCC查询'},
@@ -72,8 +74,8 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
     // const [menuCollapsed, setMenuCollapsed] = useState<boolean>(false);
     // const [, setCollapsed] = useState<boolean>(false);
     // const [breadcrumbItems, setBreadcrumbItems] = useState<string[]>([menuMap[path[0]]['label'], menuMap[path[1]]['label']]);
-    const count = useSelector((state) => state.count);
-
+    const count = useSelector((state) => state.count.count);
+    console.log('type', typeof(count), count);
     // useEffect(() => {
     //     store.subscribe(() => {
     //         const storeState = store.getState()
@@ -87,6 +89,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
             case '3': navigate("/house/hz2s");break;
             case '4': navigate("/house/sz2s");break;
             case '6': navigate("/bank/mcc");break;
+            case '9': navigate("/house/hz2szs");break;
             default: navigate("/");
         }
       };
