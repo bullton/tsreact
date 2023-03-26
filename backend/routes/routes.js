@@ -19,11 +19,12 @@ router.get('/api/check/mcc', async (req, res) => {
 })
 
 router.get('/api/house', async (req, res) => {
-    const { houseType, city, date } = req.query;
+    const { houseType, city, date, bargainType } = req.query;
     const filter = {};
     houseType && (filter.houseType = houseType);
     city && (filter.city = city);
     date && (filter.date = date);
+    bargainType && (filter.bargainType = bargainType);
     const houseList = await houseBargainModel.find(filter);
     res.send(houseList);
 })
