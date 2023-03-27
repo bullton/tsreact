@@ -36,8 +36,9 @@ const items: MenuItem[] = [
     getItem('房产数据', '房产数据', <HomeOutlined />, [
         getItem('杭州二手房交易数据', '3'),
         getItem('杭州二手房交易数据(住商)', '9'),
+        getItem('杭州新房交易数据(住商)', '10'),
         getItem('深圳二手房交易数据', '4'),
-        getItem('二手房交易城市对比', '5'),
+        getItem('二手房交易城市对比', '0'),
     ]),
     getItem('信用卡数据', '信用卡', <CreditCardOutlined />, [
         getItem('中信MCC积分查询', '6'),
@@ -107,7 +108,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                             </Typography.Title>
                         </span>
                     </div>
-                    <Menu theme="dark" defaultSelectedKeys={[path[1]?menuMap[path[1]]['key']:undefined]} defaultOpenKeys={[menuMap[path[0]]['key']]} mode="inline" items={items} onClick={onClick}/>
+                    <Menu theme="dark" defaultSelectedKeys={[path[1]?menuMap[path[1]]['key']:menuMap[path[0]]['key']]} defaultOpenKeys={[menuMap[path[0]]['key']]} mode="inline" items={items} onClick={onClick}/>
                 </Sider>
                 <Layout className="site-layout">
                     <Header style={{ padding: 0, background: 'rgba(255, 255, 255, 0.2)' }} />
