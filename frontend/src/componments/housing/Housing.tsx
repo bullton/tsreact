@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { TableProps } from 'antd';
-import { Button, Space, Table, Row, Col, Divider} from 'antd';
+import { Button, Space, Table, Row, Col, Divider, DatePicker} from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import { intervalChart } from '../../common';
 import {ArrowUpOutlined} from '@ant-design/icons';
@@ -11,6 +11,10 @@ import moment from 'moment';
 import { countSlice } from '../../redux/count/slice';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from "react-redux";
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import { dateSlice } from '../../redux/date/slice';
+
 // import { Dispatch } from "redux";
 // import {
 //   // CountActionTypes,
@@ -46,7 +50,8 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
   const [dateList, setDateList] = useState<any[]>([]);
   const [districtList, setDistrictList] = useState<any[]>([]);
   const [cities, setCities] = useState<any[]>([]);
-  const count = useSelector((state) => state.count);
+  const count = useSelector((state) => state.count.count);
+  const dateRange = useSelector((state) => state.dateRange.dateRange);
   const dispatch = useDispatch();
 
 
@@ -77,8 +82,15 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
     dispatch(countSlice.actions.addCount(20));
   }
 
-  useEffect(() => {
-    let url = `/api/house?houseType=${houseType}`;
+  const changeDate = (dates: any, dateStrings: [string, string]) => {
+    console.log('date', dates[0].startOf('day').unix(), dates[1].endOf('day').unix(), typeof(dates));
+    console.log('dateString', dateStrings, typeof(dateStrings));
+    dispatch(dateSlice.actions.changeDate({startDate: dates[0].startOf('day').unix(), endDate: dates[1].endOf('day').unix()}));
+  }
+
+  const fetchData = () => {
+    
+    let url = `/api/house?houseType=${houseType}&startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`;
     city && (url += `&city=${city}`);
     bargainType && (url += `&bargainType=${bargainType}`);
     const chartData: any[] = [];
@@ -157,7 +169,16 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
       intervalChart(squareChartData.reverse(), 'hz2ssquare', 'date', 'sold', 'city');
       intervalChart(monthlyQuantity.reverse(), 'hz2smonthly', 'month', 'monthTotal', 'city');
     });
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
+
+  useEffect(()=>{
+    console.log('.......', dateRange);
+    fetchData();
+    },[dateRange]) //count更新时执行
 
   const columns: ColumnsType<DataType> = [
     {
@@ -215,7 +236,9 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
       ellipsis: true,
     }
   ];
-  console.log(dailyData);
+  console.log('dateRange', dateRange, count);
+  const { RangePicker } = DatePicker;
+  const dateFormat = 'YYYY/MM/DD';
   return (
     <>
       <Row>
@@ -225,6 +248,13 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
             <Button onClick={clearFilters}>Clear filters</Button>
             <Button onClick={clearAll}>Clear filters and sorters</Button>
             <Button onClick={addCount}>Add Count</Button>
+            <RangePicker
+              onChange={changeDate}
+              placeholder={['开始时间','结束时间']}
+              defaultValue={[dayjs.unix(dateRange.startDate), dayjs.unix(dateRange.endDate)]}
+              format={dateFormat}
+              allowClear={false}
+            />
           </Space>
           <Table columns={columns} dataSource={dailyData} onChange={handleChange} pagination={{ defaultPageSize: pagesize }} size="small" />
         </Col>
