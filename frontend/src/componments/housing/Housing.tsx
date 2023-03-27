@@ -32,11 +32,12 @@ interface DataType {
 interface HouseProps {
   city: string | undefined,
   date: string | undefined,
-  houseType: string | undefined
-  pagesize: number
+  houseType: string | undefined,
+  pagesize: number,
+  bargainType: string | undefined
 }
 
-export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize }) => {
+export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize, bargainType }) => {
   console.log('city', city, houseType);
   const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({});
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
@@ -79,6 +80,7 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize 
   useEffect(() => {
     let url = `/api/house?houseType=${houseType}`;
     city && (url += `&city=${city}`);
+    bargainType && (url += `&bargainType=${bargainType}`);
     const chartData: any[] = [];
     const squareChartData: object[] = [];
     const monthlyQuantity: object[] = [];

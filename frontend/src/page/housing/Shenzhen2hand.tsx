@@ -6,7 +6,7 @@ export const Shenzhen2hand: React.FC = () => {
     return (
         <>
             <MainLayout>
-                <Housing city="深圳" date={undefined} houseType="住宅" pagesize={12}/>
+                <Housing city="深圳" date={undefined} houseType="住宅" bargainType="二手" pagesize={12}/>
             </MainLayout>
         </>
     );
