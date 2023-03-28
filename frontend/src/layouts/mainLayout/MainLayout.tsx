@@ -70,20 +70,12 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
         path.push('/');
     }
     const params = useParams();
-    console.log('params', params);
     const [collapsed, setCollapsed] = useState<boolean>(false);
     // const [count, setCount] = useState<number>(0);
     // const [menuCollapsed, setMenuCollapsed] = useState<boolean>(false);
     // const [, setCollapsed] = useState<boolean>(false);
     // const [breadcrumbItems, setBreadcrumbItems] = useState<string[]>([menuMap[path[0]]['label'], menuMap[path[1]]['label']]);
     const count = useSelector((state) => state.count.count);
-    console.log('type', typeof(count), count);
-    // useEffect(() => {
-    //     store.subscribe(() => {
-    //         const storeState = store.getState()
-    //         setCount(storeState.count);
-    //     });
-    // }, []);
 
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
@@ -130,7 +122,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                                 <a href="http://bullton.eicp.net:5080/photo" target="_blank" rel="noopener noreferrer">相册</a>
                             </Col>
                             <Col className="gutter-row" span={6}>
-                                <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">{count}</a>
+                                <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">{count}111111</a>
                             </Col>
                         </Row>
                     </Footer>
