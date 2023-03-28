@@ -15,12 +15,6 @@ import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { dateSlice } from '../../redux/date/slice';
 
-// import { Dispatch } from "redux";
-// import {
-//   // CountActionTypes,
-//   addCountActionCreator,
-// } from "../../redux/count/countActions";
-
 interface DataType {
   _id: string;
   city: string;

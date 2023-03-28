@@ -27,10 +27,6 @@ export const dateSlice = createSlice({
     initialState,
     reducers: {
         changeDate: (state, action: PayloadAction<payloadType>) => {
-            console.log('action.payload', action.payload);
-            // state.startDate = action.payload.startDate;
-            // state.endDate = action.payload.endDate;
-            console.log('state', state);
             state.dateRange = {
                 startDate: action.payload.startDate,
                 endDate: action.payload.endDate
