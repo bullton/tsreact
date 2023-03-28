@@ -122,7 +122,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                                 <a href="http://bullton.eicp.net:5080/photo" target="_blank" rel="noopener noreferrer">相册</a>
                             </Col>
                             <Col className="gutter-row" span={6}>
-                                <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">{count}111111</a>
+                                <a href="http://bullton.eicp.net:49154" target="_blank" rel="noopener noreferrer">{count}</a>
                             </Col>
                         </Row>
                     </Footer>
