@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { dateSlice } from '../../redux/date/slice';
+import { lineChart } from '../../common';
 
 interface DataType {
   _id: string;
@@ -93,6 +94,7 @@ export const Listings: React.FC<HouseProps> = ({ city, date, houseType, pagesize
     axios.get(url).then(res => {
       res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
       setListings(res.data);
+      lineChart(res.data.reverse(), 'listings', 'date', 'quantity', 'city');
       // let dateList = Array.from(res.data.reduce((acc: any, cur: any) => {
       //   acc.add(cur.date);
       //   return acc;
@@ -263,10 +265,10 @@ export const Listings: React.FC<HouseProps> = ({ city, date, houseType, pagesize
           <Divider plain><ArrowUpOutlined />{city}二手房月总数<ArrowUpOutlined /></Divider>
         </Col>
       </Row> */}
-      <div>
-        {listings.map((item) => {
+      <div id='listings' style={{height: 400}}>
+        {/* {listings.map((item) => {
           return <p><span>{item.city}</span><span>{item.quantity}</span></p>
-        })}
+        })} */}
       </div>
     </>
   );
