@@ -38,6 +38,7 @@ const items: MenuItem[] = [
         getItem('杭州二手房交易数据(住商)', '9'),
         getItem('杭州新房交易数据(住商)', '10'),
         getItem('深圳二手房交易数据', '4'),
+        getItem('城市挂牌量', '11'),
         getItem('二手房交易城市对比', '0'),
     ]),
     getItem('信用卡数据', '信用卡', <CreditCardOutlined />, [
@@ -52,6 +53,7 @@ const menuMap:any = {
     hz2s: {key: '3', label: '杭州二手房交易数据'},
     hz2szs: {key: '9', label: '杭州二手房交易数据(住商)'},
     hznew: {key: '10', label: '杭州新房交易数据(住商)'},
+    citylistings: {key: '11', label: '城市挂牌量'},
     sz2s: {key: '4', label: '深圳二手房交易数据'},
     bank: {key: '信用卡', label: '信用卡数据'},
     mcc: {key: '6', label: 'MCC查询'},
@@ -85,6 +87,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
             case '6': navigate("/bank/mcc");break;
             case '9': navigate("/house/hz2szs");break;
             case '10': navigate("/house/hznew");break;
+            case '11': navigate("/house/citylistings");break;
             default: navigate("/");
         }
       };
