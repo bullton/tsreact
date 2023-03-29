@@ -26,7 +26,19 @@ const houseBargainSchema = new mongoose.Schema({
     quantity: { type: String },
 });
 
+const houseListingsSchema = new mongoose.Schema({
+    city: { type: String },
+    listingsType: { type: String },
+    houseType: { type: String },
+    source: { type: String },
+    date: { type: String },
+    dateUnix: { type: Number },
+    quantity: { type: Number },
+});
+
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
 const houseBargainModel = mongoose.model('houseBargain', houseBargainSchema);
+const houseListingsModel = mongoose.model('houseListings', houseListingsSchema);
 module.exports = { mccModel, validMccModel, houseBargainModel };
+module.exports = { houseListingsModel };
