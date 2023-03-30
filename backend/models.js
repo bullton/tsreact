@@ -26,12 +26,23 @@ const houseBargainSchema = new mongoose.Schema({
     quantity: { type: String },
 });
 
+const houseListingsSchema = new mongoose.Schema({
+    city: { type: String },
+    listingsType: { type: String },
+    houseType: { type: String },
+    source: { type: String },
+    date: { type: String },
+    dateUnix: { type: Number },
+    quantity: { type: Number },
+});
+
 const estateSchema = new mongoose.Schema({
     city: { type: String },
     district: { type: String },
     area: { type: String },
     name: { type: String },
     buildTime: { type: String },
+    buildType: { type: String },
     propertyFee: { type: Number },
     propertyCompany: { type: String },
     developer: { type: String },
@@ -51,11 +62,10 @@ const estateBargainSchema = new mongoose.Schema({
     
 });
 
-
-
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
 const houseBargainModel = mongoose.model('houseBargain', houseBargainSchema);
+const houseListingsModel = mongoose.model('houseListings', houseListingsSchema);
 const estateModel = mongoose.model('estate', estateSchema);
-const estateBargainModel = mongoose.model('houseBargain', estateBargainSchema);
-module.exports = { mccModel, validMccModel, houseBargainModel, estateModel, estateBargainModel };
+const estateBargainModel = mongoose.model('estateBargain', estateBargainSchema);
+module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel };

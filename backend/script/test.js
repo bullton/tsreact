@@ -1,6 +1,6 @@
 const axios = require('axios');
 const myCheerio = require('cheerio');
-const {houseBargainModel} = require('../models/houseModel');
+const {houseBargainModel} = require('../models');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -42,6 +42,33 @@ const headers = {
 //     quantity: {type: Number},
 // });
 
+function generateUpdateData(updateData, httpModule, now, date, bargainType) {
+    for (let i=1; i<27;i+=2) {
+        const data = {
+            city: '杭州',
+            district: httpModule[0].children[i].children[1].children[0].data,
+            bargainType,
+            houseType: '住宅',
+            square: httpModule[0].children[i].children[9].children[0].data,
+            quantity: httpModule[0].children[i].children[7].children[0].data,
+            dateUnix: now,
+            date
+        };
+        const dataAll2HandBargain = {
+            city: '杭州',
+            district: httpModule[0].children[i].children[1].children[0].data,
+            bargainType,
+            houseType: '住商',
+            square: httpModule[0].children[i].children[5].children[0].data,
+            quantity: httpModule[0].children[i].children[3].children[0].data,
+            dateUnix: now,
+            date
+        };
+        updateData.push(data);
+        updateData.push(dataAll2HandBargain);
+    }
+}
+
 async function getHttp(url) {
     const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
@@ -49,19 +76,9 @@ async function getHttp(url) {
     const updateData = [];
     const now = moment().unix();
     const date = moment().format('YYYY-MM-DD');
-    for (let i=1; i<27;i+=2) {
-        const data = {
-            city: '杭州',
-            district: ershow[0].children[i].children[1].children[0].data,
-            bargainType: '二手',
-            houseType: '住宅',
-            square: ershow[0].children[i].children[9].children[0].data,
-            quantity: ershow[0].children[i].children[7].children[0].data,
-            dateUnix: now,
-            date
-        };
-        updateData.push(data);
-    }
+    generateUpdateData(updateData, ershow, now, date, '二手')
+    const newHouse = $("#con1");
+    generateUpdateData(updateData, newHouse, now, date, '新房')
     logger.info('updateData', JSON.stringify(updateData));
     await houseBargainModel.insertMany(updateData);
 }
