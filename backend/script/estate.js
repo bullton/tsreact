@@ -45,11 +45,14 @@ async function getHttp(updateData, url, ljId) {
     const estateInfo = $("span.xiaoquInfoContent");
     const buildTime = estateInfo[0].children[0].data;
     const buildType = estateInfo[1].children[0].data;
-    const propertyFee = parseFloat(estateInfo[2].children[0].data || '0');
+    let propertyFee = parseFloat(estateInfo[2].children[0].data || '0');
+    propertyFee = isNaN(propertyFee) ? 0 : propertyFee; 
     const propertyCompany = estateInfo[3].children[0].data;
     const developer = estateInfo[4].children[0].data;
-    const totalBuilding = parseInt(estateInfo[5].children[0].data);
-    const totalHouse = parseInt(estateInfo[6].children[0].data);
+    let totalBuilding = parseInt(estateInfo[5].children[0].data);
+    totalBuilding = isNaN(totalBuilding) ? 0 : totalBuilding; 
+    let totalHouse = parseInt(estateInfo[6].children[0].data);
+    totalHouse = isNaN(totalHouse) ? 0 : totalHouse; 
     generateUpdateData(updateData, city, district, area, name, buildTime, buildType, propertyFee, propertyCompany, developer, totalBuilding, totalHouse, ljId)
 }
 
