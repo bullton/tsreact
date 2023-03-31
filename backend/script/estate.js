@@ -32,44 +32,68 @@ function generateUpdateData(updateData, city, district, area, name, buildTime, b
     });
 }
 
-async function getHttp(url, ljId) {
+async function getHttp(updateData, url, ljId) {
     const res = await axios({url: url.concat(ljId), verify: false, method: 'get', headers, timeout: 10000, encoding: null});
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     const locateInfo = $("span.stp");
-    const updateData = [];
     const now = moment().unix();
     const date = moment().format('YYYY-MM-DD');
-    console.log('estate', locateInfo[0].next.children[0].data);
     const city = locateInfo[0].next.children[0].data.replace('小区', '');
     const district = locateInfo[0].next.next.next.children[0].data.replace('小区', '');
     const area = locateInfo[0].next.next.next.next.next.children[0].data.replace('小区', '');
     const name = locateInfo[0].next.next.next.next.next.next.next.children[0].data;
-    console.log('name', name);
     const estateInfo = $("span.xiaoquInfoContent");
     const buildTime = estateInfo[0].children[0].data;
     const buildType = estateInfo[1].children[0].data;
-    const propertyFee = parseFloat(estateInfo[2].children[0].data);
+    const propertyFee = parseFloat(estateInfo[2].children[0].data || '0');
     const propertyCompany = estateInfo[3].children[0].data;
     const developer = estateInfo[4].children[0].data;
     const totalBuilding = parseInt(estateInfo[5].children[0].data);
     const totalHouse = parseInt(estateInfo[6].children[0].data);
-    console.log('estateInfo', estateInfo[0]);
     generateUpdateData(updateData, city, district, area, name, buildTime, buildType, propertyFee, propertyCompany, developer, totalBuilding, totalHouse, ljId)
-    logger.info('updateData', JSON.stringify(updateData));
-    await estateModel.bulkWrite(updateData);
 }
+
+function sleep(time){
+    return new Promise((resolve) => setTimeout(resolve, time));
+   }
+   
+
+// async function getTotal() {
+//     const res = await axios({url: 'https://hz.lianjia.com/xiaoqu/pg1/?from=rec', verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+//     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
+//     const totalModule = $("h2.total");
+//     const total = parseInt(totalModule[0].children[1].children[0].data.trim());
+//     return total;
+// }
+
+async function getLjId() {
+    const ids = new Set();
+    for (let i = 1; i <= 260; i++) {
+        const url = `https://hz.lianjia.com/xiaoqu/pg${i}`
+        await sleep(1000);
+        const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+        const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
+        const estateInfo = $("li.xiaoquListItem");
+        for (let j = 0; j < 30; j++) {
+            const ljId = estateInfo[j].attribs['data-id'];
+            ids.add(ljId)
+            console.log('estateInfo', estateInfo[j].attribs['data-id']);
+            console.log('estateInfo', estateInfo[j].children[1].children[0].next.attribs['alt']);
+        }
+    }
+    logger.info(`get estate ${ids.size} ids`);
+    return Array.from(ids);
+}
+
 async function main() {
     try {
-        await getHttp('https://hz.lianjia.com/xiaoqu/', '1820028756283646');
-        await getHttp('https://hz.lianjia.com/xiaoqu/', '1811099758334');
-        await getHttp('https://hz.lianjia.com/xiaoqu/', '1820025411844714');
-        await getHttp('https://hz.lianjia.com/xiaoqu/', '1820028076472676');
-        await getHttp('https://hz.lianjia.com/xiaoqu/', '188396620705655');
-        // await getHttp('https://bj.lianjia.com/ershoufang/', '北京', '链家');
-        // await getHttp('https://cd.lianjia.com/ershoufang/', '成都', '链家');
-        // await getHttp('https://nj.lianjia.com/ershoufang/', '南京', '链家');
-        // await getHttp('https://cq.lianjia.com/ershoufang/', '重庆', '链家');
-        // await getHttp('https://sy.lianjia.com/ershoufang/', '沈阳', '链家');
+        const ids = await getLjId();
+        const updateData = [];
+        for (const id of ids) {
+            sleep(1000);
+            await getHttp(updateData, 'https://hz.lianjia.com/xiaoqu/', id);
+        }
+        await estateModel.bulkWrite(updateData);
         logger.info('get estate data successfully');
         process.exit(0);
     } catch (e) {
