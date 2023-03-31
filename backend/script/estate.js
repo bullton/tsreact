@@ -74,7 +74,7 @@ async function getLjId() {
         const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
         const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
         const estateInfo = $("li.xiaoquListItem");
-        for (let j = 0; j < 30; j++) {
+        for (let j = 0; j < estateInfo.length; j++) {
             const ljId = estateInfo[j].attribs['data-id'];
             ids.add(ljId)
             console.log('estateInfo', estateInfo[j].attribs['data-id']);
