@@ -92,9 +92,16 @@ async function main() {
     try {
         const ids = await getLjId();
         const updateData = [];
+        let finishRate = 0;
         for (const id of ids) {
             sleep(1000);
             await getHttp(updateData, 'https://hz.lianjia.com/xiaoqu/', id);
+            tempRate = ((ids.indexOf(id)+1)/ids.length * 100).toFixed(0);
+            if (tempRate > finishRate) {
+                finishRate = tempRate;
+                logger.info(`${finishRate}% Done`);
+            }
+            
         }
         await estateModel.bulkWrite(updateData);
         logger.info('get estate data successfully');
