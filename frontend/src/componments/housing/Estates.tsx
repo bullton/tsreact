@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import type { TableProps } from 'antd';
-import { Button, Space, Table, Row, Col, Divider, DatePicker} from 'antd';
+import type { TableProps, TableColumnsType } from 'antd';
+import { Button, Space, Table, Row, Col, Divider, DatePicker, Badge, Dropdown} from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import { intervalChart } from '../../common';
-import {ArrowUpOutlined} from '@ant-design/icons';
+import {ArrowUpOutlined, DownOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
 import moment from 'moment';
@@ -35,18 +35,38 @@ interface EstatesProps {
   pagesize: number
 }
 
+interface ExpandedDataType {
+  ljId: string;
+  area: string;
+  name: string;
+  dateUnix: number;
+  date: string;
+  district: string;
+  day30See: number;
+  day90Sold: number;
+  sellNum: number;
+}
+
+const items = [
+  { key: '1', label: 'Action 1' },
+  { key: '2', label: 'Action 2' },
+];
+
 export const Estates: React.FC<EstatesProps> = ({ city, pagesize }) => {
   const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({});
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
   const [dataSource, setDataSource] = useState<DataType[]>([]);
-  // const [dailyData, setDaily] = useState<DataType[]>([]);
-  // const [dateList, setDateList] = useState<any[]>([]);
-  // const [districtList, setDistrictList] = useState<any[]>([]);
-  // const [cities, setCities] = useState<any[]>([]);
-  // const count = useSelector((state) => state.count.count);
-  // const dateRange = useSelector((state) => state.dateRange.dateRange);
-  // const dispatch = useDispatch();
+  const [sellInfo, setSellInfo] = useState<ExpandedDataType[]>([]);
 
+  const expandedRowRender = () => {
+    const columns: TableColumnsType<ExpandedDataType> = [
+      { title: '90天卖出', dataIndex: 'day90Sold', key: 'day90Sold' },
+      { title: '30天带看', dataIndex: 'day30See', key: 'day30See' },
+      { title: '正在出售', dataIndex: 'sellNum', key: 'sellNum' }
+    ];
+    const data = [Object.assign({}, sellInfo[0])];
+    return <Table columns={columns} dataSource={sellInfo} pagination={false} />;
+  };
 
   const handleChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
     console.log('Various parameters', pagination, filters, sorter);
@@ -54,123 +74,31 @@ export const Estates: React.FC<EstatesProps> = ({ city, pagesize }) => {
     setSortedInfo(sorter as SorterResult<DataType>);
   };
 
-  // const clearFilters = () => {
-  //   setFilteredInfo({});
-  // };
-
-  // const clearAll = () => {
-  //   setFilteredInfo({});
-  //   setSortedInfo({});
-  // };
-
-  // const setAgeSort = () => {
-  //   setSortedInfo({
-  //     order: 'descend',
-  //     columnKey: 'quantity',
-  //   });
-  // };
-
-  // const addCount = () => {
-  //   // dispatch(addCountActionCreator(2));
-  //   dispatch(countSlice.actions.addCount(20));
-  // }
-
-  // const changeDate = (dates: any, dateStrings: [string, string]) => {
-  //   console.log('date', dates[0].startOf('day').unix(), dates[1].endOf('day').unix(), typeof(dates));
-  //   console.log('dateString', dateStrings, typeof(dateStrings));
-  //   dispatch(dateSlice.actions.changeDate({startDate: dates[0].startOf('day').unix(), endDate: dates[1].endOf('day').unix()}));
-  // }
+  const handleExpand: TableProps<DataType>['onExpand'] = (expanded, record) => {
+    console.log('Various parameters', expanded, record);
+    fetchSellInfo(record.ljId);
+  };
 
   const fetchData = () => {
-    
     let url = `/api/estates?`;
     city && (url += `&city=${city}`);
-    // const chartData: any[] = [];
-    // const squareChartData: object[] = [];
-    // const monthlyQuantity: object[] = [];
     axios.get(url).then(res => {
       res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
       setDataSource(res.data);
-      // let dateList = Array.from(res.data.reduce((acc: any, cur: any) => {
-      //   acc.add(cur.date);
-      //   return acc;
-      // }, new Set()));
-      // dateList = dateList.map((item: any) => ({ text: item, value: item }));
-      // console.log('dateList', dateList);
-      // let districtList = Array.from(res.data.reduce((acc: any, cur: any) => {
-      //   acc.add(cur.district);
-      //   return acc;
-      // }, new Set()));
-      // districtList = districtList.map((item: any) => ({ text: item, value: item }));
-      // console.log('districtList', districtList);
-      // const groupByCity = lodash.groupBy(res.data, (item) => item.city);
-      // const cities = Object.keys(groupByCity).map((item) => ({ text: item, value: item }));
-      // console.log('cities', cities);
-      // const newDaily: any = [];
-      // cities.forEach((city: any) => {
-      //   const groupedDataByDate = lodash.groupBy(groupByCity[city.value], (item) => item.date);
-      //   console.log('groupedDataByDate', groupedDataByDate);
-      //   const daily = Object.values(groupedDataByDate).map((items) => {
-      //     const groupByDistrict = lodash.groupBy(items, (item) => item.district);
-      //     const districtData = Object.values(groupByDistrict).map((items) => {
-      //       return items.sort((a, b) => a.dateUnix - b.dateUnix).pop();
-      //     }); //[{D1d1}, {D1d2}]
-      //     if (city.value === '杭州' || city.value === '深圳') {
-      //       const total = districtData.reduce((acc, cur) => {
-      //         acc.date = cur.date;
-      //         acc.dateUnix = cur.dateUnix;
-      //         acc.bargainType = cur.bargainType;
-      //         acc.houseType = cur.houseType;
-      //         acc.square = (acc.square || 0) + parseFloat(cur.square);
-      //         acc.quantity = (acc.quantity || 0) + parseInt(cur.quantity);
-      //         return acc;
-      //       }, { city: city.value, district: '全市' });
-      //       total.square = `${total.square.toFixed(2)}m²`;
-      //       total.quantity = `${total.quantity}套`;
-      //       districtData.push(total);
-      //       chartData.push({ date: total.date, sold: parseInt(total.quantity), city: total.city });
-      //       squareChartData.push({ date: total.date, sold: parseFloat(total.square), city: total.city });
-      //     }
-      //     return districtData;
-      //   });
-      //   console.log('daily', daily);
-      //   newDaily.push(...(lodash.flatten(daily)));
-      //   const groupByMonthData = lodash.groupBy(chartData.filter((item) => item.city === city.value), (item) => moment(new Date(item.date)).format('YYYYMM'));
-      //   console.log('groupByMonthData', groupByMonthData);
-      //   const monthlyData = Object.keys(groupByMonthData).map((key) => {
-      //     const monthTotal = groupByMonthData[key].reduce((acc, cur) => {
-      //       console.log(city.value, );
-      //       acc += cur.sold;
-      //       return acc;
-      //     }, 0);
-      //     return {monthTotal, month: key, city: city.value}
-      //   });
-      //   monthlyQuantity.push(...monthlyData);
-      //   // const districtSet = newDaily.reduce((acc, cur) => {
-      //   //   acc.add(cur.district);
-      //   //   return acc;
-      //   // }, new Set());
-      //   // const districtList = Array.from(districtSet).map((item) => ({text: item, value: item}));
-      // });
-      // console.log('monthlyQuantity', monthlyQuantity);
-      // setCities(cities);
-      // setDaily(newDaily);
-      // setDistrictList(districtList);
-      // setDateList(dateList);
-      // intervalChart(chartData.reverse(), 'hz2squantity', 'date', 'sold', 'city');
-      // intervalChart(squareChartData.reverse(), 'hz2ssquare', 'date', 'sold', 'city');
-      // intervalChart(monthlyQuantity.reverse(), 'hz2smonthly', 'month', 'monthTotal', 'city');
     });
   }
+
+  const fetchSellInfo = (id: string) => {
+    const url = `/api/sold?ljId=${id}`;
+    axios.get(url).then(res => {
+      setSellInfo(res.data);
+    });
+  }
+
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  // useEffect(()=>{
-  //   console.log('.......', dateRange);
-  //   fetchData();
-  //   },[dateRange]) //count更新时执行
 
   const columns: ColumnsType<DataType> = [
     {
@@ -272,7 +200,16 @@ export const Estates: React.FC<EstatesProps> = ({ city, pagesize }) => {
               allowClear={false}
             />
           </Space> */}
-          <Table columns={columns} dataSource={dataSource} onChange={handleChange} pagination={{ defaultPageSize: pagesize }} size="small" rowKey='ljId'/>
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            onChange={handleChange}
+            pagination={{ defaultPageSize: pagesize }}
+            size="small"
+            rowKey='ljId'
+            expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
+            onExpand={handleExpand}
+          />
         </Col>
       </Row>
       {/* <Row>
