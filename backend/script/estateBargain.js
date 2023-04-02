@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {estateModel, estateBargainModel} = require('../models');
+const { estateModel, estateBargainModel } = require('../models');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -24,24 +24,24 @@ function generateUpdateData(updateData, ljId, name, sellNum, day90Sold, day30See
     };
     updateData.push({
         updateOne: {
-            filter: {ljId, date},
-            update: {$set: setData},
+            filter: { ljId, date },
+            update: { $set: setData },
             upsert: true
         }
     });
 }
 
 async function getHttp(updateData, url, ljId) {
-    const res = await axios({url, method: 'get', headers, timeout: 10000});
+    const res = await axios({ url, method: 'get', headers, timeout: 10000 });
     const now = moment().unix();
     const date = moment().format('YYYY-MM-DD');
-    const {name, districtName: district, bizcircleName: area, '90saleCount': day90Sold, day30See, sellNum} = res.data.data.info;
+    const { name, districtName: district, bizcircleName: area, '90saleCount': day90Sold, day30See, sellNum } = res.data.data.info;
     generateUpdateData(updateData, ljId, name, sellNum, day90Sold, day30See, district, area, date, now)
 }
 
-function sleep(time){
+function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
-   }
+}
 
 async function getLjId() {
     const ids = await estateModel.distinct('ljId', {});
@@ -58,12 +58,12 @@ async function main() {
         for (const id of ids) {
             sleep(1000);
             await getHttp(updateData, `https://hz.lianjia.com/api/listtop?semParams%5BsemResblockId%5D=${id}`, id);
-            tempRate = ((ids.indexOf(id)+1)/ids.length * 100).toFixed(0);
-            if (tempRate > finishRate) {
+            tempRate = ((ids.indexOf(id) + 1) / ids.length * 100).toFixed(0);
+            if (parseInt(tempRate) > parseInt(finishRate)) {
                 finishRate = tempRate;
-                logger.info(`${finishRate}% Done`);
+                logger.info(`progress: ${finishRate}% Done`);
             }
-            
+
         }
         await estateBargainModel.bulkWrite(updateData);
         logger.info('get estate bargain data successfully');

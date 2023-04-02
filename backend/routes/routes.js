@@ -60,7 +60,7 @@ router.get('/api/estates', async (req, res) => {
 
 router.get('/api/sold', async (req, res) => {
     const { ljId } = req.query;
-    const filter = {ljId};
+    const filter = { ljId };
     console.log('ljId', filter);
     const estates = await estateBargainModel.find(filter);
     res.send(estates);

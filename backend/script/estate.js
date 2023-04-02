@@ -1,6 +1,6 @@
 const axios = require('axios');
 const myCheerio = require('cheerio');
-const {estateModel} = require('../models');
+const { estateModel } = require('../models');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -25,15 +25,15 @@ function generateUpdateData(updateData, city, district, area, name, buildTime, b
     };
     updateData.push({
         updateOne: {
-            filter: {ljId},
-            update: {$set: setData},
+            filter: { ljId },
+            update: { $set: setData },
             upsert: true
         }
     });
 }
 
 async function getHttp(updateData, url, ljId) {
-    const res = await axios({url: url.concat(ljId), verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+    const res = await axios({ url: url.concat(ljId), verify: false, method: 'get', headers, timeout: 10000, encoding: null });
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     const locateInfo = $("span.stp");
     const now = moment().unix();
@@ -46,20 +46,20 @@ async function getHttp(updateData, url, ljId) {
     const buildTime = estateInfo[0].children[0].data;
     const buildType = estateInfo[1].children[0].data;
     let propertyFee = parseFloat(estateInfo[2].children[0].data || '0');
-    propertyFee = isNaN(propertyFee) ? 0 : propertyFee; 
+    propertyFee = isNaN(propertyFee) ? 0 : propertyFee;
     const propertyCompany = estateInfo[3].children[0].data;
     const developer = estateInfo[4].children[0].data;
     let totalBuilding = parseInt(estateInfo[5].children[0].data);
-    totalBuilding = isNaN(totalBuilding) ? 0 : totalBuilding; 
+    totalBuilding = isNaN(totalBuilding) ? 0 : totalBuilding;
     let totalHouse = parseInt(estateInfo[6].children[0].data);
-    totalHouse = isNaN(totalHouse) ? 0 : totalHouse; 
+    totalHouse = isNaN(totalHouse) ? 0 : totalHouse;
     generateUpdateData(updateData, city, district, area, name, buildTime, buildType, propertyFee, propertyCompany, developer, totalBuilding, totalHouse, ljId)
 }
 
-function sleep(time){
+function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
-   }
-   
+}
+
 
 // async function getTotal() {
 //     const res = await axios({url: 'https://hz.lianjia.com/xiaoqu/pg1/?from=rec', verify: false, method: 'get', headers, timeout: 10000, encoding: null});
@@ -74,7 +74,7 @@ async function getLjId() {
     for (let i = 1; i <= 260; i++) {
         const url = `https://hz.lianjia.com/xiaoqu/pg${i}`
         await sleep(1000);
-        const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+        const res = await axios({ url, verify: false, method: 'get', headers, timeout: 10000, encoding: null });
         const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
         const estateInfo = $("li.xiaoquListItem");
         for (let j = 0; j < estateInfo.length; j++) {
@@ -96,12 +96,12 @@ async function main() {
         for (const id of ids) {
             sleep(1000);
             await getHttp(updateData, 'https://hz.lianjia.com/xiaoqu/', id);
-            tempRate = ((ids.indexOf(id)+1)/ids.length * 100).toFixed(0);
-            if (tempRate > finishRate) {
+            tempRate = ((ids.indexOf(id) + 1) / ids.length * 100).toFixed(0);
+            if (parseInt(tempRate) > parseInt(finishRate)) {
                 finishRate = tempRate;
-                logger.info(`${finishRate}% Done`);
+                logger.info(`progress: ${finishRate}% Done`);
             }
-            
+
         }
         await estateModel.bulkWrite(updateData);
         logger.info('get estate data successfully');

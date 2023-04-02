@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import type { TableProps, TableColumnsType } from 'antd';
-import { Button, Space, Table, Row, Col, Divider, DatePicker, Badge, Dropdown} from 'antd';
+import { Button, Space, Table, Row, Col, Divider, DatePicker, Badge, Dropdown } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import { intervalChart } from '../../common';
-import {ArrowUpOutlined, DownOutlined} from '@ant-design/icons';
+import { ArrowUpOutlined, DownOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
 import moment from 'moment';
