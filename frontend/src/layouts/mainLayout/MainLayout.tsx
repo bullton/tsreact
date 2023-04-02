@@ -49,17 +49,17 @@ const items: MenuItem[] = [
     // getItem('Files', '9', <FileOutlined />),
 ];
 
-const menuMap:any = {
-    house: {key: '房产数据', label: '房产数据'},
-    hz2s: {key: '3', label: '杭州二手房交易数据'},
-    hz2szs: {key: '9', label: '杭州二手房交易数据(住商)'},
-    hznew: {key: '10', label: '杭州新房交易数据(住商)'},
-    citylistings: {key: '11', label: '城市挂牌量'},
-    estates: {key: '12', label: '小区信息'},
-    sz2s: {key: '4', label: '深圳二手房交易数据'},
-    bank: {key: '信用卡', label: '信用卡数据'},
-    mcc: {key: '6', label: 'MCC查询'},
-    '/': {key: '0', label: '首页'}
+const menuMap: any = {
+    house: { key: '房产数据', label: '房产数据' },
+    hz2s: { key: '3', label: '杭州二手房交易数据' },
+    hz2szs: { key: '9', label: '杭州二手房交易数据(住商)' },
+    hznew: { key: '10', label: '杭州新房交易数据(住商)' },
+    citylistings: { key: '11', label: '城市挂牌量' },
+    estates: { key: '12', label: '小区信息' },
+    sz2s: { key: '4', label: '深圳二手房交易数据' },
+    bank: { key: '信用卡', label: '信用卡数据' },
+    mcc: { key: '6', label: 'MCC查询' },
+    '/': { key: '0', label: '首页' }
 }
 
 interface PropsTypes {
@@ -68,7 +68,7 @@ interface PropsTypes {
 
 export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
     const navigate = useNavigate();
-    const {pathname} = useLocation();
+    const { pathname } = useLocation();
     const path = pathname.split('/').filter((item) => item);
     if (!path.length) {
         path.push('/');
@@ -83,17 +83,17 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
 
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
-        switch(e.key) {
-            case '3': navigate("/house/hz2s");break;
-            case '4': navigate("/house/sz2s");break;
-            case '6': navigate("/bank/mcc");break;
-            case '9': navigate("/house/hz2szs");break;
-            case '10': navigate("/house/hznew");break;
-            case '11': navigate("/house/citylistings");break;
-            case '12': navigate("/house/estates");break;
+        switch (e.key) {
+            case '3': navigate("/house/hz2s"); break;
+            case '4': navigate("/house/sz2s"); break;
+            case '6': navigate("/bank/mcc"); break;
+            case '9': navigate("/house/hz2szs"); break;
+            case '10': navigate("/house/hznew"); break;
+            case '11': navigate("/house/citylistings"); break;
+            case '12': navigate("/house/estates"); break;
             default: navigate("/");
         }
-      };
+    };
     return (
         <>
             <Layout style={{ minHeight: '100vh' }}>
@@ -106,12 +106,12 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
                             </Typography.Title>
                         </span>
                     </div>
-                    <Menu theme="dark" defaultSelectedKeys={[path[1]?menuMap[path[1]]['key']:menuMap[path[0]]['key']]} defaultOpenKeys={[menuMap[path[0]]['key']]} mode="inline" items={items} onClick={onClick}/>
+                    <Menu theme="dark" defaultSelectedKeys={[path[1] ? menuMap[path[1]]['key'] : menuMap[path[0]]['key']]} defaultOpenKeys={[menuMap[path[0]]['key']]} mode="inline" items={items} onClick={onClick} />
                 </Sider>
                 <Layout className="site-layout">
                     <Header style={{ padding: 0, background: 'rgba(255, 255, 255, 0.2)' }} />
                     <Content style={{ margin: '0 16px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }} items={path.map((item) => ({title: menuMap[item]['label']}))} />
+                        <Breadcrumb style={{ margin: '16px 0' }} items={path.map((item) => ({ title: menuMap[item]['label'] }))} />
                         <div style={{ padding: 24, background: 'rgba(255, 255, 255, 0.2)' }}>
                             {children}
                         </div>

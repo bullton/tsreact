@@ -1,6 +1,6 @@
 const axios = require('axios');
 const myCheerio = require('cheerio');
-const {houseListingsModel} = require('../models');
+const { houseListingsModel } = require('../models');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -26,15 +26,15 @@ function generateUpdateData(updateData, httpModule, now, date, source, listingsT
     };
     updateData.push({
         updateOne: {
-            filter: {city, date, listingsType, houseType, source},
-            update: {$set: setData},
+            filter: { city, date, listingsType, houseType, source },
+            update: { $set: setData },
             upsert: true
         }
     });
 }
 
 async function getHttp(url, city, source) {
-    const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+    const res = await axios({ url, verify: false, method: 'get', headers, timeout: 10000, encoding: null });
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     const ershow = $("h2.total");
     const updateData = [];

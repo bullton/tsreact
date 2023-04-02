@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import type { TableProps } from 'antd';
-import { Button, Space, Table, Row, Col, Divider, DatePicker} from 'antd';
+import { Button, Space, Table, Row, Col, Divider, DatePicker } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import { intervalChart } from '../../common';
-import {ArrowUpOutlined} from '@ant-design/icons';
+import { ArrowUpOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
 import moment from 'moment';
@@ -77,13 +77,13 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
   }
 
   const changeDate = (dates: any, dateStrings: [string, string]) => {
-    console.log('date', dates[0].startOf('day').unix(), dates[1].endOf('day').unix(), typeof(dates));
-    console.log('dateString', dateStrings, typeof(dateStrings));
-    dispatch(dateSlice.actions.changeDate({startDate: dates[0].startOf('day').unix(), endDate: dates[1].endOf('day').unix()}));
+    console.log('date', dates[0].startOf('day').unix(), dates[1].endOf('day').unix(), typeof (dates));
+    console.log('dateString', dateStrings, typeof (dateStrings));
+    dispatch(dateSlice.actions.changeDate({ startDate: dates[0].startOf('day').unix(), endDate: dates[1].endOf('day').unix() }));
   }
 
   const fetchData = () => {
-    
+
     let url = `/api/house?houseType=${houseType}&startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`;
     city && (url += `&city=${city}`);
     bargainType && (url += `&bargainType=${bargainType}`);
@@ -141,11 +141,11 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
         console.log('groupByMonthData', groupByMonthData);
         const monthlyData = Object.keys(groupByMonthData).map((key) => {
           const monthTotal = groupByMonthData[key].reduce((acc, cur) => {
-            console.log(city.value, );
+            console.log(city.value,);
             acc += cur.sold;
             return acc;
           }, 0);
-          return {monthTotal, month: key, city: city.value}
+          return { monthTotal, month: key, city: city.value }
         });
         monthlyQuantity.push(...monthlyData);
         // const districtSet = newDaily.reduce((acc, cur) => {
@@ -169,10 +169,10 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
     fetchData();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('.......', dateRange);
     fetchData();
-    },[dateRange]) //count更新时执行
+  }, [dateRange]) //count更新时执行
 
   const columns: ColumnsType<DataType> = [
     {
@@ -244,7 +244,7 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
             <Button onClick={addCount}>Add Count</Button>
             <RangePicker
               onChange={changeDate}
-              placeholder={['开始时间','结束时间']}
+              placeholder={['开始时间', '结束时间']}
               defaultValue={[dayjs.unix(dateRange.startDate), dayjs.unix(dateRange.endDate)]}
               format={dateFormat}
               allowClear={false}
@@ -255,11 +255,11 @@ export const Housing: React.FC<HouseProps> = ({ city, date, houseType, pagesize,
       </Row>
       <Row>
         <Col className="gutter-row" span={24} style={{ padding: 0 }}>
-          <div id='hz2squantity' style={{height: 400}}></div>
+          <div id='hz2squantity' style={{ height: 400 }}></div>
           <Divider plain><ArrowUpOutlined />{city}二手房日交易套数<ArrowUpOutlined /></Divider>
-          <div id='hz2ssquare' style={{height: 400}}></div>
+          <div id='hz2ssquare' style={{ height: 400 }}></div>
           <Divider plain><ArrowUpOutlined />{city}二手房日交易面积<ArrowUpOutlined /></Divider>
-          <div id='hz2smonthly' style={{height: 400}}></div>
+          <div id='hz2smonthly' style={{ height: 400 }}></div>
           <Divider plain><ArrowUpOutlined />{city}二手房月总数<ArrowUpOutlined /></Divider>
         </Col>
       </Row>
