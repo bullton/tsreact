@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel } = require('../models');
+const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel } = require('../models');
 const xlsx = require('xlsx');
 const { query } = require('express');
 
@@ -55,6 +55,14 @@ router.get('/api/estates', async (req, res) => {
     const filter = {};
     city && (filter.city = city);
     const estates = await estateModel.find(filter);
+    res.send(estates);
+})
+
+router.get('/api/sold', async (req, res) => {
+    const { ljId } = req.query;
+    const filter = {ljId};
+    console.log('ljId', filter);
+    const estates = await estateBargainModel.find(filter);
     res.send(estates);
 })
 

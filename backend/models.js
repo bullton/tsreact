@@ -54,12 +54,13 @@ const estateSchema = new mongoose.Schema({
 const estateBargainSchema = new mongoose.Schema({
     ljId: { type: String },
     name: { type: String },
-    salingTotal: {type: Number},
-    bargainTotalInNinetyDays: {type: Number},
-    viewingInThirtyDays: {type: Number},
+    sellNum: {type: Number},
+    day90Sold: {type: Number},
+    day30See: {type: Number},
     date: { type: String },
-    dateUnix: { type: Number }
-    
+    dateUnix: { type: Number },
+    district: {type: String},
+    area: {type: String}
 });
 
 const mccModel = mongoose.model('mccs', mccSchema);
