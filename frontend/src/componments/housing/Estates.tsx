@@ -2,18 +2,9 @@ import React, { useState, useEffect } from 'react';
 import type { TableProps, TableColumnsType } from 'antd';
 import { Button, Space, Table, Row, Col, Divider, DatePicker, Badge, Dropdown } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
-import { intervalChart } from '../../common';
-import { ArrowUpOutlined, DownOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import lodash from 'lodash';
 import moment from 'moment';
-// import store from '../../redux/store';
-import { countSlice } from '../../redux/count/slice';
-import { useSelector } from '../../redux/hooks';
-import { useDispatch } from "react-redux";
-import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
-import { dateSlice } from '../../redux/date/slice';
 
 interface DataType {
   _id: string;
@@ -56,35 +47,31 @@ export const Estates: React.FC<EstatesProps> = ({ city, pagesize }) => {
   const [filteredInfo, setFilteredInfo] = useState<Record<string, FilterValue | null>>({});
   const [sortedInfo, setSortedInfo] = useState<SorterResult<DataType>>({});
   const [dataSource, setDataSource] = useState<DataType[]>([]);
-  const [sellInfo, setSellInfo] = useState<ExpandedDataType[]>([]);
+  const [sellInfo, setSellInfo] = useState<any>({});
 
-  const expandedRowRender = () => {
+  const expandedRowRender = (record: DataType) => {
     const columns: TableColumnsType<ExpandedDataType> = [
       { title: '90天卖出', dataIndex: 'day90Sold', key: 'day90Sold' },
       { title: '30天带看', dataIndex: 'day30See', key: 'day30See' },
-      { title: '正在出售', dataIndex: 'sellNum', key: 'sellNum' }
+      { title: '正在出售', dataIndex: 'sellNum', key: 'sellNum' },
+      { title: '更新日期', dataIndex: 'date', key: 'date' }
     ];
-    const data = [Object.assign({}, sellInfo[0])];
-    return <Table columns={columns} dataSource={sellInfo} pagination={false} />;
+    return <Table columns={columns} dataSource={[sellInfo[record.ljId]]} pagination={false} />;
   };
 
   const handleChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter) => {
-    console.log('Various parameters', pagination, filters, sorter);
     setFilteredInfo(filters);
     setSortedInfo(sorter as SorterResult<DataType>);
-  };
-
-  const handleExpand: TableProps<DataType>['onExpand'] = (expanded, record) => {
-    console.log('Various parameters', expanded, record);
-    fetchSellInfo(record.ljId);
   };
 
   const fetchData = () => {
     let url = `/api/estates?`;
     city && (url += `&city=${city}`);
     axios.get(url).then(res => {
-      res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
-      setDataSource(res.data);
+      const {estates, sellInfo: sellInfoObj} = res.data || {estates: [], sellInfo: {}};
+      estates.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
+      setDataSource(estates);
+      setSellInfo(sellInfoObj);
     });
   }
 
@@ -180,7 +167,6 @@ export const Estates: React.FC<EstatesProps> = ({ city, pagesize }) => {
       ellipsis: true,
     },
   ];
-  // console.log('dateRange', dateRange, count);
   // const { RangePicker } = DatePicker;
   // const dateFormat = 'YYYY/MM/DD';
   return (
@@ -208,7 +194,6 @@ export const Estates: React.FC<EstatesProps> = ({ city, pagesize }) => {
             size="small"
             rowKey='ljId'
             expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
-            onExpand={handleExpand}
           />
         </Col>
       </Row>

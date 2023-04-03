@@ -55,7 +55,12 @@ router.get('/api/estates', async (req, res) => {
     const filter = {};
     city && (filter.city = city);
     const estates = await estateModel.find(filter);
-    res.send(estates);
+    const estatesSell = await estateBargainModel.find({});
+    const sellInfo = estatesSell.reduce((acc, cur) => {
+        acc[cur.ljId] = cur;
+        return acc;
+    }, {});
+    res.send({estates, sellInfo});
 })
 
 router.get('/api/sold', async (req, res) => {
