@@ -6,7 +6,7 @@ export const EstateInfo: React.FC = () => {
     return (
         <>
             <MainLayout>
-                <Estates city='杭州' pagesize={10}/>
+                <Estates city='杭州' pagesize={50}/>
             </MainLayout>
         </>
     );
