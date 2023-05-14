@@ -63,10 +63,21 @@ const estateBargainSchema = new mongoose.Schema({
     area: { type: String }
 });
 
+const hongkongMiddleSchoolSchema = new mongoose.Schema({
+    name: { type: String }, //0
+    type: { type: String }, //1
+    district: { type: String }, //2
+    banding: { type: String }, //3
+    lang: { type: String }, //4
+    sex: { type: String }, //5
+    religion: { type: String } //6
+});
+
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
 const houseBargainModel = mongoose.model('houseBargain', houseBargainSchema);
 const houseListingsModel = mongoose.model('houseListings', houseListingsSchema);
 const estateModel = mongoose.model('estate', estateSchema);
 const estateBargainModel = mongoose.model('estateBargain', estateBargainSchema);
-module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel };
+const hongkongMiddleSchoolModel = mongoose.model('hongkongMiddleSchool', hongkongMiddleSchoolSchema);
+module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel };
