@@ -71,6 +71,7 @@ function generateUpdateData(updateData, httpModule, now, date, bargainType) {
 
 async function getHttp(url) {
     const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+    console.log('res', res);
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     const ershow = $("#con3");
     const updateData = [];
