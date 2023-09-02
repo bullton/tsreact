@@ -1,8 +1,8 @@
 const { hongkongMiddleSchoolModel } = require('../models');
-// const moment = require('moment');
-// const log4js = require('log4js');
-// const logger = log4js.getLogger();
-// logger.level = 'info';
+const moment = require('moment');
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+logger.level = 'info';
 
 const data = {
     "draw": 1,
