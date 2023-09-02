@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/mybank', {
-    useNewUrlParser: true
-})
+
+const options = { user : "mybank", pass : "282400245", auth : {authMechanism: 'MONGODB-CR'}, useNewUrlParser: true }
+mongoose.connect('mongodb://127.0.0.1:27017/mybank', options)
 
 const mccSchema = new mongoose.Schema({
     mcc: { type: String, unique: true },

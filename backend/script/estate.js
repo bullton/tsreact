@@ -33,7 +33,8 @@ function generateUpdateData(updateData, city, district, area, name, buildTime, b
 }
 
 async function getHttp(updateData, url, ljId) {
-    const res = await axios({ url: url.concat(ljId), verify: false, method: 'get', headers, timeout: 10000, encoding: null });
+    console.log('urlWithId', url.concat(ljId));
+    const res = await axios({ url: url.concat(ljId), verify: false, method: 'get', headers, timeout: 100000, encoding: null });
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     const locateInfo = $("span.stp");
     const now = moment().unix();
@@ -74,7 +75,8 @@ async function getLjId() {
     for (let i = 1; i <= 260; i++) {
         const url = `https://hz.lianjia.com/xiaoqu/pg${i}`
         await sleep(1000);
-        const res = await axios({ url, verify: false, method: 'get', headers, timeout: 10000, encoding: null });
+        console.log('url', url);
+        const res = await axios({ url, verify: false, method: 'get', headers, timeout: 100000, encoding: null });
         const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
         const estateInfo = $("li.xiaoquListItem");
         for (let j = 0; j < estateInfo.length; j++) {
