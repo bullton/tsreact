@@ -49,7 +49,7 @@ async function main() {
         await getHttp('https://hz.lianjia.com/ershoufang/', '杭州', '链家');
         await getHttp('https://bj.lianjia.com/ershoufang/', '北京', '链家');
         await getHttp('https://cd.lianjia.com/ershoufang/', '成都', '链家');
-        await getHttp('https://nj.lianjia.com/ershoufang/', '南京', '链家');
+        // await getHttp('https://nj.lianjia.com/ershoufang/', '南京', '链家');
         await getHttp('https://cq.lianjia.com/ershoufang/', '重庆', '链家');
         await getHttp('https://sy.lianjia.com/ershoufang/', '沈阳', '链家');
         logger.info('get house listings data successfully');
