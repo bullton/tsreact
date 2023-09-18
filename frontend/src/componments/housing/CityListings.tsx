@@ -93,6 +93,7 @@ export const Listings: React.FC<HouseProps> = ({ city, date, houseType, pagesize
     // const monthlyQuantity: object[] = [];
     axios.get(url).then(res => {
       res.data.sort((a: any, b: any) => b.dateUnix - a.dateUnix);
+      console.log('data', res.data);
       setListings(res.data);
       lineChart(res.data.reverse(), 'listings', 'date', 'quantity', 'city');
       // let dateList = Array.from(res.data.reduce((acc: any, cur: any) => {
