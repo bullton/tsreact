@@ -73,6 +73,16 @@ const hongkongMiddleSchoolSchema = new mongoose.Schema({
     religion: { type: String } //6
 });
 
+const hongkongPSSchema = new mongoose.Schema({
+    name: { type: String }, //0
+    type: { type: String }, //1
+    district: { type: String }, //2
+    net: { type: String }, //3
+    relation: { type: String }, //4
+    sex: { type: String }, //5
+    religion: { type: String } //6
+});
+
 const monitorsSchema = new mongoose.Schema({
     schoolId: { type: String }, //0
     monitorType: { type: String }, //1
@@ -91,4 +101,5 @@ const estateModel = mongoose.model('estate', estateSchema);
 const estateBargainModel = mongoose.model('estateBargain', estateBargainSchema);
 const hongkongMiddleSchoolModel = mongoose.model('hongkongMiddleSchool', hongkongMiddleSchoolSchema);
 const monitorsModel = mongoose.model('monitors', monitorsSchema);
-module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel };
+const hongkongPSModel = mongoose.model('hongkongprimaryschools', hongkongPSSchema);
+module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel };
