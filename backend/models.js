@@ -89,8 +89,12 @@ const monitorsSchema = new mongoose.Schema({
     keyWords: { type: Array }, //2
     link: { type: String }, //3
     addUser: { type: String }, //4
-    udpateTime: { type: Number }, //5
-    addTime: { type: Number } //6
+    updateTime: { type: Number }, //5
+    addTime: { type: Number }, //6
+    label: { type: String },
+    getText: {type: String},
+    historyTitle: { type: Array }
+    
 });
 
 const mccModel = mongoose.model('mccs', mccSchema);

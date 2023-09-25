@@ -325,6 +325,10 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
             dataIndex: 'monitorType',
         },
         {
+            title: 'label',
+            dataIndex: 'label',
+        },
+        {
             title: 'keyWords',
             dataIndex: 'keyWords',
         },
@@ -347,9 +351,13 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
             dataIndex: 'addTime',
         },
         {
-            title: 'udpateTime',
-            dataIndex: 'udpateTime',
-        }
+            title: 'updateTime',
+            dataIndex: 'updateTime',
+        },
+        {
+            title: 'getText',
+            dataIndex: 'getText',
+        },
     ];
 
     useEffect(() => {
