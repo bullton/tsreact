@@ -384,8 +384,7 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
             const { monitors, metaData } = res.data || { monitors: [], metaData: {} };
             console.log('metaData', metaData.hongkongMiddleSchool)
             for (const item of monitors) {
-                console.log('name', metaData.hongkongMiddleSchool[item.schoolId]['name']);
-                item.name = metaData.hongkongMiddleSchool[item.schoolId]['name'];
+                item.name = metaData.hongkongMiddleSchool[item.schoolId] && metaData.hongkongMiddleSchool[item.schoolId]['name'] || metaData.hongkongprimaryschools[item.schoolId] && metaData.hongkongprimaryschools[item.schoolId]['name'] || 'NA';
             }
             setDataSource(monitors);
             // setSsObject(metaData.hongkongMiddleSchoolModel);

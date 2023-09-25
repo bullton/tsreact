@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, monitorsModel, hongkongMiddleSchoolModel } = require('../models');
+const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, monitorsModel, hongkongMiddleSchoolModel, hongkongPSModel } = require('../models');
 const xlsx = require('xlsx');
 const { query } = require('express');
 
@@ -73,7 +73,7 @@ router.get('/api/monitor', async (req, res) => {
     }
     console.log('filter', filter);
     const dbModel = monitorsModel;
-    const { metaData, mainData } = await handleData({ action, dbModel, data, filter, task: [hongkongMiddleSchoolModel] });
+    const { metaData, mainData } = await handleData({ action, dbModel, data, filter, task: [hongkongMiddleSchoolModel, hongkongPSModel] });
     res.send({ metaData, monitors: mainData });
 })
 
@@ -98,16 +98,15 @@ async function handleData({ action, dbModel, data, filter, task }) {
     } else if (action === 'delete') {
         //
     } else {
-        const metaData = await task.reduce(async (acc, item) => {
+        const metaData = {};
+        for (const item of task) {
             const findData = await item.find();
-
             const findObj = findData.reduce((acc, cur) => {
                 acc[cur._id.toString()] = cur;
                 return acc;
             }, {});
-            acc[item.modelName] = findObj;
-            return acc;
-        }, {});
+            metaData[item.modelName] = findObj;
+        }
         const mainData = await dbModel.find(filter);
         return { metaData, mainData };
     }
