@@ -92,7 +92,7 @@ const monitorsSchema = new mongoose.Schema({
     updateTime: { type: Number }, //5
     addTime: { type: Number }, //6
     label: { type: String },
-    getText: {type: String},
+    getText: {type: Array},
     historyTitle: { type: Array }
     
 });
