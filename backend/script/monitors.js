@@ -82,24 +82,28 @@ async function getHttp(url, keyWords, label, m, updateData) {
         const searchStr = `${label}:contains("${keyWord}")`;
         const p = $(searchStr);
         const title = $(p).text();
-        newTitles.push(title);
+        if (!(m.historyTitle || []).includes(title)) {
+            newTitles.push(title);
+        } 
     }
 
     console.log(now);
     console.log('newT', newTitles);
-    if (newTitles.length && !(m.historyTitle || []).includes(JSON.stringify(newTitles))) {
-        if (m.historyTitle && m.historyTitle.length) {
-            m.historyTitle.push(JSON.stringify(newTitles));
-        } else {
-            m.historyTitle = [JSON.stringify(newTitles)];
-        }
+    if (newTitles.length) {
+        // if (m.historyTitle && m.historyTitle.length) {
+        //     m.historyTitle.push(JSON.stringify(newTitles));
+        // } else {
+        //     m.historyTitle = [JSON.stringify(newTitles)];
+        // }
         updateData.push({updateOne: {
             filter: {_id: mongoose.Types.ObjectId(m._id)},
-            update: {$set: {
-                getText: JSON.stringify(newTitles),
-                historyTitle: m.historyTitle,
+            update: {
+                $set: {
+                getText: newTitles,
                 updateTime: now
-            }},
+                },
+                $push: {historyTitle: {$each : newTitles}} 
+            },
             upsert: false
         }});
     }
