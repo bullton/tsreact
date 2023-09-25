@@ -46,6 +46,9 @@ const items: MenuItem[] = [
         getItem('中信MCC积分查询', '6'),
         getItem('信用卡管理', '8')
     ]),
+    getItem('香港学校', '香港学校', <HomeOutlined />, [
+        getItem('监控管理', '13')
+    ]),
     // getItem('Files', '9', <FileOutlined />),
 ];
 
@@ -59,6 +62,8 @@ const menuMap: any = {
     sz2s: { key: '4', label: '深圳二手房交易数据' },
     bank: { key: '信用卡', label: '信用卡数据' },
     mcc: { key: '6', label: 'MCC查询' },
+    monitor: { key: '香港学校', label: '香港学校' },
+    monitormanager: { key: '13', label: '监控管理' },
     '/': { key: '0', label: '首页' }
 }
 
@@ -91,6 +96,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
             case '10': navigate("/house/hznew"); break;
             case '11': navigate("/house/citylistings"); break;
             case '12': navigate("/house/estates"); break;
+            case '13': navigate("/monitor/monitormanager"); break;
             default: navigate("/");
         }
     };
