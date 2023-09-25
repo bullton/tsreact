@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel } = require('../models');
+const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, monitorsModel, hongkongMiddleSchoolModel } = require('../models');
 const xlsx = require('xlsx');
 const { query } = require('express');
 
@@ -60,7 +60,21 @@ router.get('/api/estates', async (req, res) => {
         acc[cur.ljId] = cur;
         return acc;
     }, {});
-    res.send({estates, sellInfo});
+    res.send({ estates, sellInfo });
+})
+
+router.get('/api/monitor', async (req, res) => {
+    const { data, action } = req.query;
+    const filter = {};
+    if (data && data.length) {
+        data[0].schoolId && (filter.schoolId = data[0].schoolId);
+        data[0].monitorType && (filter.monitorType = data[0].monitorType);
+        data[0].addUser && (filter.addUser = data[0].addUser);
+    }
+    console.log('filter', filter);
+    const dbModel = monitorsModel;
+    const { metaData, mainData } = await handleData({ action, dbModel, data, filter, task: [hongkongMiddleSchoolModel] });
+    res.send({ metaData, monitors: mainData });
 })
 
 router.get('/api/sold', async (req, res) => {
@@ -70,6 +84,34 @@ router.get('/api/sold', async (req, res) => {
     const estates = await estateBargainModel.find(filter);
     res.send(estates);
 })
+
+async function handleData({ action, dbModel, data, filter, task }) {
+    if (action === 'add' && data && data.length) {
+        const updateData = data.map((d) => (
+            {
+                updateOne: d
+            }
+        ));
+        return await dbModel.bulkWrite(updateData);
+    } else if (action === 'edit') {
+        //
+    } else if (action === 'delete') {
+        //
+    } else {
+        const metaData = await task.reduce(async (acc, item) => {
+            const findData = await item.find();
+
+            const findObj = findData.reduce((acc, cur) => {
+                acc[cur._id.toString()] = cur;
+                return acc;
+            }, {});
+            acc[item.modelName] = findObj;
+            return acc;
+        }, {});
+        const mainData = await dbModel.find(filter);
+        return { metaData, mainData };
+    }
+}
 
 
 module.exports = router
