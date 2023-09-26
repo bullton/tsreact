@@ -3,6 +3,8 @@ const router = express.Router()
 const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, monitorsModel, hongkongMiddleSchoolModel, hongkongPSModel } = require('../models');
 const xlsx = require('xlsx');
 const { query } = require('express');
+const moment = require('moment');
+
 
 router.get('/api/check/merchant_code', async (req, res) => {
     const { totalMerchantCode } = req.query;
@@ -64,7 +66,8 @@ router.get('/api/estates', async (req, res) => {
 })
 
 router.get('/api/monitor', async (req, res) => {
-    const { data, action } = req.query;
+    console.log('req.query', req.params);
+    const { data, action = 'find' } = req.query;
     const filter = {};
     if (data && data.length) {
         data[0].schoolId && (filter.schoolId = data[0].schoolId);
@@ -77,6 +80,17 @@ router.get('/api/monitor', async (req, res) => {
     res.send({ metaData, monitors: mainData });
 })
 
+router.post('/api/monitor/add', async (req, res) => {
+    const {data} = req.query;
+    const dbModel = monitorsModel;
+    for (const d of data) {
+        d.addTime = moment().unix();
+        d.addUser = 'bullton'
+    }
+    const result = await handleData({ action: 'add', dbModel, data, filter: {}, task: [] });
+    res.send({ result });
+})
+
 router.get('/api/sold', async (req, res) => {
     const { ljId } = req.query;
     const filter = { ljId };
@@ -87,17 +101,12 @@ router.get('/api/sold', async (req, res) => {
 
 async function handleData({ action, dbModel, data, filter, task }) {
     if (action === 'add' && data && data.length) {
-        const updateData = data.map((d) => (
-            {
-                updateOne: d
-            }
-        ));
-        return await dbModel.bulkWrite(updateData);
+        return await dbModel.insertMany(data);
     } else if (action === 'edit') {
         //
     } else if (action === 'delete') {
         //
-    } else {
+    } else if (action === 'find') {
         const metaData = {};
         for (const item of task) {
             const findData = await item.find();
@@ -109,6 +118,8 @@ async function handleData({ action, dbModel, data, filter, task }) {
         }
         const mainData = await dbModel.find(filter);
         return { metaData, mainData };
+    } else {
+        return {};
     }
 }
 

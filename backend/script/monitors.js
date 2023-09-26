@@ -134,20 +134,18 @@ async function getHttp(url, keyWords, label, m, updateData) {
     // await houseBargainModel.insertMany(updateData);
 }
 async function main() {
-    // try {
-        const monitors = await monitorsModel.find({schoolId: '65113aa0429da644d9efdec0'});
+    try {
+        const monitors = await monitorsModel.find({});
         const udpateData = [];
         for (const m of monitors) {
             await getHttp(m.link, m.keyWords, m.label, m, udpateData);
         }
-        console.log('update', udpateData);
         const r = await monitorsModel.bulkWrite(udpateData);
-        // await getHttp('https://www.kcobaps2.edu.hk/tc/latest_news');
         process.exit(0);
-//     } catch (e) {
-//         logger.error(`Error: ${e}`);
-//         process.exit(1);
-//     }
+    } catch (e) {
+        logger.error(`Error: ${e}`);
+        process.exit(1);
+    }
 }
 
 main()
