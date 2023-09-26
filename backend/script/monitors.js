@@ -5,7 +5,15 @@ const {monitorsModel} = require('../models');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
+require('ssl-root-cas').inject();
 logger.level = 'info';
+const https = require('https')
+
+// 在 axios 请求时，选择性忽略 SSL
+const agent = new https.Agent({
+  rejectUnauthorized: false
+})
+
 
 var seedURL_format = "$('a')";
 var keywords_format = " $('meta[name=\"keywords\"]').eq(0).attr(\"content\")";
@@ -71,7 +79,7 @@ function generateUpdateData(updateData, httpModule, now, date, bargainType) {
 }
 
 async function getHttp(url, keyWords, label, m, updateData) {
-    const res = await axios({url, verify: false, method: 'get', headers, timeout: 10000, encoding: null});
+    const res = await axios({url, verify: false, method: 'get', headers, httpsAgent: agent, timeout: 10000, encoding: null});
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     // const p = Object.values($('p'));
     // const p = eval($('.date'));
