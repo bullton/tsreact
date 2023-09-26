@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from 'react';
 import type { TableProps, TableColumnsType } from 'antd';
-import { Button, Space, Table, Row, Col, Divider, DatePicker, Badge, Dropdown, Form, Input, Popconfirm, Modal } from 'antd';
+import { Button, Space, Table, Row, Col, Divider, DatePicker, Badge, Dropdown, Form, Input, Popconfirm, Modal, Radio, Select } from 'antd';
 import type { ColumnsType, FilterValue, SorterResult } from 'antd/es/table/interface';
 import axios from 'axios';
 import lodash from 'lodash';
@@ -281,9 +281,131 @@ interface DataType {
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
+interface Values {
+    title: string;
+    description: string;
+    modifier: string;
+}
+
+interface CollectionCreateFormProps {
+    open: boolean;
+    schools: any;
+    keys: any;
+    onCreate: (values: Values) => void;
+    onCancel: () => void;
+}
+
+const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
+    open,
+    schools,
+    keys,
+    onCreate,
+    onCancel,
+}) => {
+    const [form] = Form.useForm();
+    const options = schools.map((s: any) => {
+        return {
+            value: s._id.toString(),
+            label: s.name
+        }
+    });
+    const keyOptions = keys.map((s: any) => {
+        return {
+            value: s,
+            label: s
+        }
+    });
+    const filterOption = (input: string, option?: { label: string; value: string }) =>
+        (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
+    return (
+        <Modal
+            open={open}
+            title="创建一条新的监控"
+            okText="Save"
+            cancelText="Cancel"
+            onCancel={onCancel}
+            onOk={() => {
+                form
+                    .validateFields()
+                    .then((values) => {
+                        form.resetFields();
+                        console.log('vvv', values)
+                        onCreate(values);
+                    })
+                    .catch((info) => {
+                        console.log('Validate Failed:', info);
+                    });
+            }}
+        >
+            <Form
+                form={form}
+                layout="vertical"
+                name="form_in_modal"
+                initialValues={{ modifier: 'public' }}
+            >
+                <Form.Item
+                    name="schoolId"
+                    label="学校"
+                    rules={[{ required: true, message: 'Please input the school!' }]}
+                >
+                    <Select
+                        showSearch
+                        placeholder="Select a person"
+                        optionFilterProp="children"
+                        // onChange={onChange}
+                        // onSearch={onSearch}
+                        filterOption={filterOption}
+                        options={options}
+                    />
+                </Form.Item>
+                <Form.Item name="monitorType" label="monitorType">
+                    <Select
+                        style={{ width: '100%' }}
+                        // onChange={handleChange}
+                        filterOption={filterOption}
+                        options={[
+                            {
+                                value: 'admision',
+                                label: 'admision'
+                            },
+                            {
+                                value: 'open day',
+                                label: 'open day'
+                            }
+                        ]}
+                    />
+                </Form.Item>
+                <Form.Item name="keyWords" label="keyWords">
+                    <Select
+                        mode="tags"
+                        style={{ width: '100%' }}
+                        placeholder="Tags Mode"
+                        // onChange={handleChange}
+                        filterOption={filterOption}
+                        options={keyOptions}
+                    />
+                </Form.Item>
+                <Form.Item name="link" label="link">
+                    <Input type="textarea" />
+                </Form.Item>
+                <Form.Item name="label" label="label">
+                    <Input type="textarea" />
+                </Form.Item>
+                {/* <Form.Item name="modifier" className="collection-create-form_last-form-item">
+            <Radio.Group>
+              <Radio value="public">Public</Radio>
+              <Radio value="private">Private</Radio>
+            </Radio.Group>
+          </Form.Item> */}
+            </Form>
+        </Modal>
+    );
+};
+
 export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
     const [dataSource, setDataSource] = useState<DataType[]>([]);
-    // const [ssObj, setSsObject] = useState({});
+    const [meta, setMetaData] = useState<any>({});
     const [open, setOpen] = useState(false);
     const [count, setCount] = useState(2);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -366,7 +488,32 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
         fetchData();
     }, []);
 
-    const handleAdd = () => {
+    const handleAdd = (values: AnyObject) => {
+        console.log('vvvvvvvvvvvvv', values);
+        setOpen(false);
+        const params = {action: 'add', data: [values]}
+        axios.post('/api/monitor/add', params, {
+            headers:{
+                 'Content-Type':'application/json'
+            },
+            params
+        })
+          .then(function (response) {
+            console.log(response);
+            fetchData();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+        // axios({
+        //     method:"post",
+        //     url:"/api/monitor/add",
+        //     params: {'a': 1}
+        //     }).then(data => {
+        //     console.log(data);
+        // })
+
         //   const newData: DataType = {
         //     key: count,
         //     name: `Edward King ${count}`,
@@ -397,7 +544,7 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
                 item.name = metaData.hongkongMiddleSchool[item.schoolId] && metaData.hongkongMiddleSchool[item.schoolId]['name'] || metaData.hongkongprimaryschools[item.schoolId] && metaData.hongkongprimaryschools[item.schoolId]['name'] || 'NA';
             }
             setDataSource(monitors);
-            // setSsObject(metaData.hongkongMiddleSchoolModel);
+            setMetaData(metaData);
         });
     }
 
@@ -424,6 +571,18 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
         };
     });
 
+    const onCreate = (values: any) => {
+        console.log('Received values of form: ', values);
+        setOpen(false);
+    };
+    console.log('meta', meta);
+    const schools = Object.values(meta.hongkongMiddleSchool || {}).concat(Object.values(meta.hongkongprimaryschools || {}))
+    const keysSet = new Set();
+    const keys = dataSource.forEach((d) => {
+        d.keyWords.forEach((k) => {
+            keysSet.add(k);
+        });
+    });
     return (
         <div>
             <Button onClick={showModal} type="primary" style={{ marginBottom: 16 }}>
@@ -437,7 +596,7 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
                 columns={columns as ColumnTypes}
                 rowKey='_id'
             />
-            <Modal
+            {/* <Modal
                 title="Add monitor"
                 open={open}
                 onOk={handleOk}
@@ -445,7 +604,16 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
                 onCancel={handleCancel}
             >
                 <p>{modalText}</p>
-            </Modal>
+            </Modal> */}
+            <CollectionCreateForm
+                open={open}
+                keys={Array.from(keysSet)}
+                schools={schools}
+                onCreate={handleAdd}
+                onCancel={() => {
+                    setOpen(false);
+                }}
+            />
         </div>
     );
 };
