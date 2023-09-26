@@ -94,9 +94,6 @@ async function getHttp(url, keyWords, label, m, updateData) {
             newTitles.push(title);
         } 
     }
-
-    console.log(now);
-    console.log('newT', newTitles);
     if (newTitles.length) {
         // if (m.historyTitle && m.historyTitle.length) {
         //     m.historyTitle.push(JSON.stringify(newTitles));
@@ -138,7 +135,7 @@ async function getHttp(url, keyWords, label, m, updateData) {
 }
 async function main() {
     // try {
-        const monitors = await monitorsModel.find();
+        const monitors = await monitorsModel.find({schoolId: '65113aa0429da644d9efdec0'});
         const udpateData = [];
         for (const m of monitors) {
             await getHttp(m.link, m.keyWords, m.label, m, udpateData);

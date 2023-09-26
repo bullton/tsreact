@@ -331,6 +331,7 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
         {
             title: 'keyWords',
             dataIndex: 'keyWords',
+            render: (_, record) => record.keyWords.join('|')
         },
         {
             title: 'link',
@@ -357,6 +358,7 @@ export const MonitorManager: React.FC<MonitorProps> = ({ pagesize }) => {
         {
             title: 'getText',
             dataIndex: 'getText',
+            render: (_, record) => record.getText.map((r: string) => <p>{r}</p>)
         },
     ];
 
