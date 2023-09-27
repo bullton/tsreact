@@ -90,7 +90,7 @@ async function getHttp(url, keyWords, label, m, updateData) {
         const searchStr = `${label}:contains("${keyWord}")`;
         const p = $(searchStr);
         const title = $(p).text();
-        if (!(m.historyTitle || []).includes(title)) {
+        if (!(m.historyTitle || []).includes(title) && !newTitles.includes(title)) {
             newTitles.push(title);
         } 
     }
