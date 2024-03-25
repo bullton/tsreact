@@ -49,6 +49,9 @@ const items: MenuItem[] = [
     getItem('香港学校', '香港学校', <HomeOutlined />, [
         getItem('监控管理', '13')
     ]),
+    getItem('地图相关', '地图相关', <HomeOutlined />, [
+        getItem('地图浏览', '14')
+    ]),
     // getItem('Files', '9', <FileOutlined />),
 ];
 
@@ -64,6 +67,8 @@ const menuMap: any = {
     mcc: { key: '6', label: 'MCC查询' },
     monitor: { key: '香港学校', label: '香港学校' },
     monitormanager: { key: '13', label: '监控管理' },
+    maps: { key: '地图相关', label: '地图相关' },
+    mapshow: { key: '14', label: '地图浏览' },
     '/': { key: '0', label: '首页' }
 }
 
@@ -97,6 +102,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
             case '11': navigate("/house/citylistings"); break;
             case '12': navigate("/house/estates"); break;
             case '13': navigate("/monitor/monitormanager"); break;
+            case '14': navigate("/maps/mapshow"); break;
             default: navigate("/");
         }
     };
