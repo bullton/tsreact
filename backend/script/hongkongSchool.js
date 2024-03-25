@@ -4320,7 +4320,11 @@ async function insertData() {
         }
         return newItem;
     });
-    await hongkongMiddleSchoolModel.insertMany(newData);
+    if (newData.length) {
+        logger.info(`new data length: ${newData.length}`);
+        await hongkongMiddleSchoolModel.deleteMany({});
+        await hongkongMiddleSchoolModel.insertMany(newData);
+    }
 }
 
 async function main() {
