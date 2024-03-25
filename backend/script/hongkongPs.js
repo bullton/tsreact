@@ -4959,9 +4959,12 @@ async function insertData() {
         }
         return newItem;
     });
-    console.log('newData', newData.length);
-    await hongkongPSModel.insertMany(newData);
-}
+    if (newData.length) {
+        logger.info(`new data length: ${newData.length}`);
+        await hongkongPSModel.deleteMany({});
+        await hongkongPSModel.insertMany(newData);
+    }
+}    
 
 async function main() {
     try {

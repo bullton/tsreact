@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+mongoose.set("strictQuery", false);
 const options = { user : "mybank", pass : "282400245", auth : {authMechanism: 'MONGODB-CR'}, useNewUrlParser: true }
 mongoose.connect('mongodb://127.0.0.1:27017/mybank', options)
 
