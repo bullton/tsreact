@@ -112,8 +112,9 @@ const bigexamSchema = new mongoose.Schema({
     bandFluct: { type: Boolean }, //bandFluct
     rankUpper: { type: Number }, //rank
     rankLower: { type: Number }, //rank
-    stopS1: {type: Number} //stopS1 stop S1 from xxxx year
-});
+    stopS1: {type: Number}, //stopS1 stop S1 from xxxx year
+    bandCurve: { type: Array } //bandCurve banding history
+}, { strict: false });
 
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
