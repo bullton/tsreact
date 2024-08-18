@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { bigexamModel } = require('../models');
+const myCheerio = require('cheerio');
 const moment = require('moment');
 const log4js = require('log4js');
 const logger = log4js.getLogger();
@@ -349,13 +350,38 @@ function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+async function getSchoolDetail(id) {
+    const url = `https://dse.bigexam.hk/zh-cn/ssp/school/`;
+    console.log('url', url);
+    const headers2 = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        // "Accept-Encoding": "gzip, deflate",
+        "Cache-Control": "max-age=0",
+        "Connection": "keep-alive",
+        // "Host": "fgj.hangzhou.gov.cn",
+        // "Referer": "http://fgj.hangzhou.gov.cn/",
+        "Upgrade-Insecure-Requests": "1",
+        "Cookie": "zh_choose_undefined=s; arialoadData=false; SERVERID=57526053d080975751a9538d16dda0a7|1678115473|1678114551",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+    }
+    const res = await axios({ url: url.concat(id), verify: false, method: 'get', headers: headers2, timeout: 100000, encoding: null });
+    const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
+    // const locateInfo = JSON.stringify($('div.main-content')[0].children[30].children[0].data);
+    eval($('div.main-content')[0].children[30].children[0].data);
+    console.log('bandCurve', bandCurve?bandCurve.length:0);
+    return {bandCurve, bandInfo, subjs, rank};
+}
+
 async function getHttp(url) {
     for (let i = 1; i <= 45; i++) {
         sleep(1000);
         const params = { 'p': i, order: 'name', asc: 1 };
         const res = await axios({ url, method: 'post', params, headers, timeout: 10000 });
         console.log('res', JSON.stringify(res.data.data));
-        const updateData = res.data.data.map((item) => {
+        const updateData = [];
+        for (const item of res.data.data) {
+            const {bandCurve, bandInfo, subjs, rank} = await getSchoolDetail(item.schId);
             const update = {
                 "schoolId": item.schId,
                 "ename": item.ename, //ename
@@ -371,25 +397,29 @@ async function getHttp(url) {
                 "bandFluct": item.bandFluct, //bandFluct
                 "rankUpper": item.rank ? item.rank[0] : null, //rank
                 "rankLower": item.rank ? item.rank[1] : null, //rank
-                "stopS1": item.stopS1 //stopS1 stop S1 from xxxx year
+                "stopS1": item.stopS1, //stopS1 stop S1 from xxxx year
+                "bandCurve": bandCurve || [],
+                "subjs": subjs || [],
+                "rank": rank || []
             };
+            Object.assign(update, bandInfo || {});
             const filter = { "schoolId": item.schId };
-            return { updateOne: { filter, update, upsert: true } };
-        });
+            updateData.push({ updateOne: { filter, update, upsert: true } });
+        }
         await bigexamModel.bulkWrite(updateData);
 
     }
 
 }
 async function main() {
-    try {
+    // try {
         await getHttp('https://dse.bigexam.hk/en/ajax/sspFltr');
         logger.info('get data from bigexam end');
         process.exit(0);
-    } catch (e) {
+    // } catch (e) {
         logger.error(`Error: ${e}`);
         process.exit(1);
-    }
+    // }
 }
 
 main()
