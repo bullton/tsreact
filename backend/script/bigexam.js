@@ -412,14 +412,14 @@ async function getHttp(url) {
 
 }
 async function main() {
-    // try {
+    try {
         await getHttp('https://dse.bigexam.hk/en/ajax/sspFltr');
         logger.info('get data from bigexam end');
         process.exit(0);
-    // } catch (e) {
+    } catch (e) {
         logger.error(`Error: ${e}`);
         process.exit(1);
-    // }
+    }
 }
 
 main()
