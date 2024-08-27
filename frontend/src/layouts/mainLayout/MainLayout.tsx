@@ -13,6 +13,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, Row, Col, Typography } from 'antd';
+import { School } from "../../page";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -47,7 +48,8 @@ const items: MenuItem[] = [
         getItem('信用卡管理', '8')
     ]),
     getItem('香港学校', '香港学校', <HomeOutlined />, [
-        getItem('监控管理', '13')
+        getItem('监控管理', '13'),
+        getItem('学校信息', '15')
     ]),
     getItem('地图相关', '地图相关', <HomeOutlined />, [
         getItem('地图浏览', '14')
@@ -67,6 +69,7 @@ const menuMap: any = {
     mcc: { key: '6', label: 'MCC查询' },
     monitor: { key: '香港学校', label: '香港学校' },
     monitormanager: { key: '13', label: '监控管理' },
+    school: { key: '15', label: '学校信息' },
     maps: { key: '地图相关', label: '地图相关' },
     mapshow: { key: '14', label: '地图浏览' },
     '/': { key: '0', label: '首页' }
@@ -103,6 +106,7 @@ export const MainLayout: React.FC<PropsTypes> = ({ children }) => {
             case '12': navigate("/house/estates"); break;
             case '13': navigate("/monitor/monitormanager"); break;
             case '14': navigate("/maps/mapshow"); break;
+            case '15': navigate("/monitor/school"); break;
             default: navigate("/");
         }
     };

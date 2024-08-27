@@ -369,8 +369,8 @@ async function getSchoolDetail(id) {
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     // const locateInfo = JSON.stringify($('div.main-content')[0].children[30].children[0].data);
     eval($('div.main-content')[0].children[30].children[0].data);
-    console.log('bandCurve', bandCurve?bandCurve.length:0);
-    return {bandCurve, bandInfo, subjs, rank};
+    console.log('bandCurve', bandCurve ? bandCurve.length : 0);
+    return { bandCurve, bandInfo, subjs, rank };
 }
 
 async function getHttp(url) {
@@ -381,7 +381,7 @@ async function getHttp(url) {
         console.log('res', JSON.stringify(res.data.data));
         const updateData = [];
         for (const item of res.data.data) {
-            const {bandCurve, bandInfo, subjs, rank} = await getSchoolDetail(item.schId);
+            const { bandCurve, bandInfo, subjs, rank } = await getSchoolDetail(item.schId);
             const update = {
                 "schoolId": item.schId,
                 "ename": item.ename, //ename
@@ -412,14 +412,14 @@ async function getHttp(url) {
 
 }
 async function main() {
-    // try {
+    try {
         await getHttp('https://dse.bigexam.hk/en/ajax/sspFltr');
         logger.info('get data from bigexam end');
         process.exit(0);
-    // } catch (e) {
+    } catch (e) {
         logger.error(`Error: ${e}`);
         process.exit(1);
-    // }
+    }
 }
 
 main()
