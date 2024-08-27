@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, monitorsModel, hongkongMiddleSchoolModel, hongkongPSModel } = require('../models');
+const { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel,
+    estateBargainModel, monitorsModel, hongkongMiddleSchoolModel, hongkongPSModel, bigexamModel } = require('../models');
 const xlsx = require('xlsx');
 const { query } = require('express');
 const moment = require('moment');
@@ -78,6 +79,15 @@ router.get('/api/monitor', async (req, res) => {
     const dbModel = monitorsModel;
     const { metaData, mainData } = await handleData({ action, dbModel, data, filter, task: [hongkongMiddleSchoolModel, hongkongPSModel] });
     res.send({ metaData, monitors: mainData });
+})
+
+router.get('/api/school', async (req, res) => {
+    console.log('req.query', req.params, req.query);
+    const filter = req.query;
+    console.log('filter', filter);
+    const dbModel = bigexamModel;
+    const { metaData, mainData } = await handleData({ action: 'find', dbModel, data: [], filter, task: [] });
+    res.send({ metaData, schoolData: mainData });
 })
 
 router.post('/api/monitor/add', async (req, res) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HomePage, Mcc, Hangzhou2hand, Shenzhen2hand, Hangzhou2handTotal, HangzhouNew, CityListings, EstateInfo, Monitor, MapBrowse } from './page';
+import { HomePage, Mcc, Hangzhou2hand, Shenzhen2hand, Hangzhou2handTotal, HangzhouNew, CityListings, EstateInfo, Monitor, MapBrowse, School } from './page';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +17,7 @@ const App: React.FC = () => {
           <Route path="/house/estates" element={<EstateInfo />} /><Route />
           <Route path="/monitor/monitormanager" element={<Monitor />} /><Route />
           <Route path="/maps/mapshow" element={<MapBrowse />} /><Route />
+          <Route path="/monitor/school" element={<School />} /><Route />
         </Routes>
       </BrowserRouter>
 
