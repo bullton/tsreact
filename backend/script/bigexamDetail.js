@@ -97,8 +97,8 @@ async function getLjId() {
 
 async function main() {
     try {
-        // const ids = await getLjId();
-        const ids = ['3']
+        const ids = await getLjId();
+        // const ids = ['3']
         const updateData = [];
         let finishRate = 0;
         for (const id of ids) {
