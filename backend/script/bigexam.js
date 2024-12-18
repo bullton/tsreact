@@ -390,7 +390,7 @@ async function getHttp(url) {
                 "schoolType": item.type.name, //type.name
                 "gend": item.gend.name, //gend.name
                 "religion": item.religion, //religion
-                "chiRatio": item.sai['2024'], //sai.2024
+                "chiRatio": item.sai['2025'], //sai.2025
                 "band": item.band ? item.band.name : null, //band.name
                 "bandAccuracy": item.band ? item.band.rel : null, //band.rel 0=no data, 1=Rough estimate, 2=Middle estimate, 3=High Accuracy
                 "bandTrend": item.bandTrend, //bandTrend

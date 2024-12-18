@@ -101,16 +101,16 @@ async function main() {
         // const ids = ['3']
         const updateData = [];
         let finishRate = 0;
-        for (const id of ids) {
-            sleep(1000);
-            await getHttp(updateData, 'https://dse.bigexam.hk/zh-cn/ssp/school/', id);
-            // tempRate = ((ids.indexOf(id) + 1) / ids.length * 100).toFixed(0);
-            // if (parseInt(tempRate) > parseInt(finishRate)) {
-            //     finishRate = tempRate;
-            //     logger.info(`progress: ${finishRate}% Done`);
-            // }
+        // for (const id of ids) {
+        //     sleep(1000);
+        //     await getHttp(updateData, 'https://dse.bigexam.hk/zh-cn/ssp/school/', id);
+        //     // tempRate = ((ids.indexOf(id) + 1) / ids.length * 100).toFixed(0);
+        //     // if (parseInt(tempRate) > parseInt(finishRate)) {
+        //     //     finishRate = tempRate;
+        //     //     logger.info(`progress: ${finishRate}% Done`);
+        //     // }
 
-        }
+        // }
         // await estateModel.bulkWrite(updateData);
         logger.info('get estate data successfully');
         process.exit(0);
