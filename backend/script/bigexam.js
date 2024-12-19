@@ -369,7 +369,10 @@ async function getSchoolDetail(id) {
     const $ = myCheerio.load(res.data, { decodeEntities: true, ignoreWhitespace: true });
     // const locateInfo = JSON.stringify($('div.main-content')[0].children[30].children[0].data);
     eval($('div.main-content')[0].children[30].children[0].data);
-    console.log('bandCurve', bandCurve ? bandCurve.length : 0);
+    // console.log('bandCurve', bandCurve ? bandCurve.length : 0);
+    // console.log('bandInfo',bandInfo)
+    // console.log('subjs',subjs)
+    // console.log('rank',rank)
     return { bandCurve, bandInfo, subjs, rank };
 }
 
@@ -382,6 +385,7 @@ async function getHttp(url) {
         const updateData = [];
         for (const item of res.data.data) {
             const { bandCurve, bandInfo, subjs, rank } = await getSchoolDetail(item.schId);
+            // const { bandCurve, bandInfo, subjs, rank } = await getSchoolDetail('5');
             const update = {
                 "schoolId": item.schId,
                 "ename": item.ename, //ename
@@ -403,7 +407,7 @@ async function getHttp(url) {
                 "rank": rank || []
             };
             Object.assign(update, bandInfo || {});
-            const filter = { "schoolId": item.schId };
+            const filter = { "schoolId": item.schId, "year": bandInfo.year || '2024' };
             updateData.push({ updateOne: { filter, update, upsert: true } });
         }
         await bigexamModel.bulkWrite(updateData);
