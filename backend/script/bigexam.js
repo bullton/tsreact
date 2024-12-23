@@ -410,6 +410,8 @@ async function getHttp(url) {
             Object.assign(update, bandInfoNew);
             const filter = { "schoolId": item.schId, "year": bandInfoNew.year || '2024' };
             updateData.push({ updateOne: { filter, update, upsert: true } });
+            const finishRate = (i/45).toFixed(2)*100;
+            console.log(`${finishRate}% Complete`);
         }
         await bigexamModel.bulkWrite(updateData);
 
