@@ -406,8 +406,9 @@ async function getHttp(url) {
                 "subjs": subjs || [],
                 "rank": rank || []
             };
-            Object.assign(update, bandInfo || {});
-            const filter = { "schoolId": item.schId, "year": bandInfo.year || '2024' };
+            const bandInfoNew = bandInfo || {};
+            Object.assign(update, bandInfoNew);
+            const filter = { "schoolId": item.schId, "year": bandInfoNew.year || '2024' };
             updateData.push({ updateOne: { filter, update, upsert: true } });
         }
         await bigexamModel.bulkWrite(updateData);
