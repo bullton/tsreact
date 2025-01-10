@@ -352,7 +352,6 @@ function sleep(time) {
 
 async function getSchoolDetail(id) {
     const url = `https://dse.bigexam.hk/zh-cn/ssp/school/`;
-    console.log('url', url);
     const headers2 = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
         "Accept-Language": "zh-CN,zh;q=0.9",
@@ -406,15 +405,18 @@ async function getHttp(url) {
                 "subjs": subjs || [],
                 "rank": rank || []
             };
-            const bandInfoNew = bandInfo || {};
+            const bandInfoNew = {};
+            Object.assign(bandInfoNew, bandInfo || {});
+            
             Object.assign(update, bandInfoNew);
-            const filter = { "schoolId": item.schId, "year": bandInfoNew.year || '2024' };
+            const filter = { "schoolId": item.schId, "year": bandInfoNew.year || 2024 };
+            // const filter = { "schoolId": item.schId };
+            // console.log('update', JSON.stringify(update));
             updateData.push({ updateOne: { filter, update, upsert: true } });
-            const finishRate = (i/45).toFixed(2)*100;
-            console.log(`${finishRate}% Complete`);
         }
         await bigexamModel.bulkWrite(updateData);
-
+        const finishRate = (i/45).toFixed(4)*100;
+        console.log(`${finishRate}% Complete`);
     }
 
 }

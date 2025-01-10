@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
 const options = { user : "mybank", pass : "282400245", auth : {authMechanism: 'MONGODB-CR'}, useNewUrlParser: true }
-// mongoose.connect('mongodb://120.77.77.148:27017/mybank', options)
-mongoose.connect('mongodb://127.0.0.1:27017/mybank', options)
+mongoose.connect('mongodb://120.77.77.148:27017/mybank', options)
+// mongoose.connect('mongodb://127.0.0.1:27017/mybank', options)
 
 const mccSchema = new mongoose.Schema({
     mcc: { type: String, unique: true },
@@ -99,7 +99,8 @@ const monitorsSchema = new mongoose.Schema({
 });
 
 const bigexamSchema = new mongoose.Schema({
-    schoolId: { type: String, unique: true}, //schId
+    // schoolId: { type: String, unique: true}, //schId
+    schoolId: { type: String, unique: false}, //schId
     ename: { type: String }, //ename
     cname: { type: String }, //cname
     dist: { type: String }, //dist
@@ -126,5 +127,5 @@ const estateBargainModel = mongoose.model('estateBargain', estateBargainSchema);
 const hongkongMiddleSchoolModel = mongoose.model('hongkongMiddleSchool', hongkongMiddleSchoolSchema);
 const monitorsModel = mongoose.model('monitors', monitorsSchema);
 const hongkongPSModel = mongoose.model('hongkongprimaryschools', hongkongPSSchema);
-const bigexamModel = mongoose.model('bigExamSchools', bigexamSchema);
+const bigexamModel = mongoose.model('bigExamSchools2025', bigexamSchema);
 module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel };
