@@ -118,6 +118,17 @@ const bigexamSchema = new mongoose.Schema({
     bandCurve: { type: Array } //bandCurve banding history
 }, { strict: false });
 
+const p1AllocationSchema = new mongoose.Schema({
+    name: { type: String, unique: false},
+    dist: { type: String },
+    net: { type: String }, 
+    selfNum: { type: Number },
+    unifNum: { type: Number },
+    delta: { type: Number },
+    over: {type: Number},
+    year: { type: String }
+}, { strict: false });
+
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
 const houseBargainModel = mongoose.model('houseBargain', houseBargainSchema);
@@ -128,4 +139,5 @@ const hongkongMiddleSchoolModel = mongoose.model('hongkongMiddleSchool', hongkon
 const monitorsModel = mongoose.model('monitors', monitorsSchema);
 const hongkongPSModel = mongoose.model('hongkongprimaryschools', hongkongPSSchema);
 const bigexamModel = mongoose.model('bigExamSchools2025', bigexamSchema);
-module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel };
+const p1AllocationModel = mongoose.model('p1Allocation', p1AllocationSchema);
+module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel, p1AllocationModel };
