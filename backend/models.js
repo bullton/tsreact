@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
 const options = { user : "mybank", pass : "282400245", auth : {authMechanism: 'MONGODB-CR'}, useNewUrlParser: true }
-// mongoose.connect('mongodb://120.77.77.148:27017/mybank', options)
-mongoose.connect('mongodb://127.0.0.1:27017/mybank', options)
+mongoose.connect('mongodb://120.77.77.148:27017/mybank', options)
+// mongoose.connect('mongodb://127.0.0.1:27017/mybank', options)
 
 const mccSchema = new mongoose.Schema({
     mcc: { type: String, unique: true },
@@ -99,7 +99,8 @@ const monitorsSchema = new mongoose.Schema({
 });
 
 const bigexamSchema = new mongoose.Schema({
-    schoolId: { type: String, unique: true}, //schId
+    // schoolId: { type: String, unique: true}, //schId
+    schoolId: { type: String, unique: false}, //schId
     ename: { type: String }, //ename
     cname: { type: String }, //cname
     dist: { type: String }, //dist
@@ -117,6 +118,17 @@ const bigexamSchema = new mongoose.Schema({
     bandCurve: { type: Array } //bandCurve banding history
 }, { strict: false });
 
+const p1AllocationSchema = new mongoose.Schema({
+    name: { type: String, unique: false},
+    dist: { type: String },
+    net: { type: String }, 
+    selfNum: { type: Number },
+    unifNum: { type: Number },
+    delta: { type: Number },
+    over: {type: Number},
+    year: { type: String }
+}, { strict: false });
+
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
 const houseBargainModel = mongoose.model('houseBargain', houseBargainSchema);
@@ -126,5 +138,6 @@ const estateBargainModel = mongoose.model('estateBargain', estateBargainSchema);
 const hongkongMiddleSchoolModel = mongoose.model('hongkongMiddleSchool', hongkongMiddleSchoolSchema);
 const monitorsModel = mongoose.model('monitors', monitorsSchema);
 const hongkongPSModel = mongoose.model('hongkongprimaryschools', hongkongPSSchema);
-const bigexamModel = mongoose.model('bigExamSchools', bigexamSchema);
-module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel };
+const bigexamModel = mongoose.model('bigExamSchools2025', bigexamSchema);
+const p1AllocationModel = mongoose.model('p1Allocation', p1AllocationSchema);
+module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel, p1AllocationModel };
