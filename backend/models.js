@@ -129,6 +129,15 @@ const p1AllocationSchema = new mongoose.Schema({
     year: { type: String }
 }, { strict: false });
 
+
+const hangzhouPlanSchema = new mongoose.Schema({
+    projectId:{ type: String, unique: true},
+    title: { type: String },
+    category: { type: String },
+    publishDate: { type: String }, 
+    endDate: { type: String }
+}, { strict: false });
+
 const mccModel = mongoose.model('mccs', mccSchema);
 const validMccModel = mongoose.model('valid_mccs', validMccSchema);
 const houseBargainModel = mongoose.model('houseBargain', houseBargainSchema);
@@ -140,4 +149,5 @@ const monitorsModel = mongoose.model('monitors', monitorsSchema);
 const hongkongPSModel = mongoose.model('hongkongprimaryschools', hongkongPSSchema);
 const bigexamModel = mongoose.model('bigExamSchools2025', bigexamSchema);
 const p1AllocationModel = mongoose.model('p1Allocation', p1AllocationSchema);
-module.exports = { mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel, p1AllocationModel };
+const hangzhouPlanModel = mongoose.model('hangzhouplan', hangzhouPlanSchema);
+module.exports = { mongoose, mccModel, validMccModel, houseBargainModel, houseListingsModel, estateModel, estateBargainModel, hongkongMiddleSchoolModel, monitorsModel, hongkongPSModel, bigexamModel, p1AllocationModel, hangzhouPlanModel };
