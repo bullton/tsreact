@@ -8,9 +8,12 @@
 /.pnp
 .pnp.js
 
+/backend/script/downloads
+
 # testing
 /coverage
-
+/debug
+/backend/script/debug
 # production
 /build
 
