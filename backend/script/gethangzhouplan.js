@@ -1,5 +1,4 @@
 const axios = require('axios');
-// const { MongoClient } = require('mongodb');
 const { hangzhouPlanModel, mongoose } = require('../models');
 const log4js = require('log4js');
 const cheerio = require('cheerio');
@@ -7,14 +6,26 @@ const fs = require('fs-extra');
 const path = require('path');
 const crypto = require('crypto');
 
+// 解析命令行参数
+const args = process.argv.slice(2);
+const params = {};
+for (let i = 0; i < args.length; i += 2) {
+    const key = args[i].replace('--', '');
+    const value = args[i + 1];
+    params[key] = value;
+}
+
 // 日志配置
 const logger = log4js.getLogger();
 logger.level = 'info';
 
-// 项目配置
+// 项目配置 - 支持命令行参数
 const CONFIG = {
     BASE_URL: 'https://ghzy.hangzhou.gov.cn',
-    LIST_URL: 'https://ghzy.hangzhou.gov.cn/col/col1228968050/index.html',
+    // 从命令行参数获取 LIST_URL，默认使用批前公示URL
+    LIST_URL: params.LIST_URL || 'https://ghzy.hangzhou.gov.cn/col/col1228968050/index.html',
+    // 从命令行参数获取 category，默认使用批前公示
+    CATEGORY: params.category || '建设项目批前公示',
     API_PATH: '/api-gateway/jpaas-publish-server/front/page/build/unit',
 
     // 请求配置
@@ -31,7 +42,7 @@ const CONFIG = {
 };
 
 /**
- * 项目抓取器 - 混合模式
+ * 公共项目抓取器 - 混合模式
  */
 class HybridProjectCrawler {
     constructor() {
@@ -44,9 +55,6 @@ class HybridProjectCrawler {
             'Connection': 'keep-alive',
             'Upgrade-Insecure-Requests': '1'
         };
-
-        // this.mongoClient = null;
-        // this.db = null;
     }
 
     /**
@@ -224,7 +232,7 @@ class HybridProjectCrawler {
             return {
                 projectId,
                 title,
-                category: '建设项目批前公示',
+                category: CONFIG.CATEGORY,  // 使用命令行传入的category
                 publishDate,
                 endDate,
                 detailUrl,
@@ -279,6 +287,7 @@ class HybridProjectCrawler {
                             projects.push({
                                 projectId,
                                 title,
+                                category: CONFIG.CATEGORY,  // 使用命令行传入的category
                                 detailUrl: this.normalizeUrl(href),
                                 source: 'static-backup',
                                 discoveredAt: new Date()
@@ -453,9 +462,9 @@ class HybridProjectCrawler {
     }
 
     /**
-   * 下载图片
-   * 保存到: DOWNLOAD_DIR/项目名/filename
-   */
+  * 下载图片
+  * 保存到: DOWNLOAD_DIR/项目名/filename
+  */
     async downloadImage(image, projectTitle, projectId) {
         try {
             // 清理项目名称，用于文件夹命名
@@ -541,38 +550,10 @@ class HybridProjectCrawler {
     }
 
     /**
-     * 生成图片文件名
-     * 使用原始标题或从URL提取
-     */
-    generateFilename(title, url, index) {
-        let filename = '';
-
-        if (title && title.trim() !== '') {
-            // 使用标题作为文件名，移除非法字符
-            filename = title.replace(/[<>:"/\\|?*]/g, '_').trim();
-        } else {
-            // 从URL提取文件名
-            const urlParts = url.split('/');
-            filename = urlParts[urlParts.length - 1].split('?')[0];
-        }
-
-        // 确保有扩展名
-        if (!filename.includes('.')) {
-            const match = url.match(/\.(jpg|jpeg|png|gif|bmp|webp)/i);
-            const ext = match ? match[1] : 'jpg';
-            filename += `.${ext}`;
-        }
-
-        return `${index + 1}_${filename}`;
-    }
-
-
-    /**
      * 检查项目是否已存在
      */
     async projectExists(projectId) {
         try {
-            //   const collection = this.db.collection(CONFIG.COLLECTION_NAME);
             const count = await hangzhouPlanModel.countDocuments({ projectId });
             return count > 0;
         } catch (error) {
@@ -607,20 +588,16 @@ class HybridProjectCrawler {
     }
 
     /**
-     * 主抓取流程
-     */
-    /**
    * 主抓取流程
    */
     async crawl() {
-        logger.info('🚀 开始抓取杭州市建设项目批前公示');
+        logger.info(`🚀 开始抓取杭州市 ${CONFIG.CATEGORY}`);
+        logger.info(`📋 LIST_URL: ${CONFIG.LIST_URL}`);
+        logger.info(`📂 Category: ${CONFIG.CATEGORY}`);
 
         let projects = [];
 
         try {
-            // 1. 连接数据库
-            // await this.connectDB();
-
             // 2. 尝试获取项目列表
             if (CONFIG.USE_API_FIRST) {
                 const apiProjects = await this.fetchProjectsByAPI();
@@ -726,7 +703,7 @@ class HybridProjectCrawler {
      */
     displayResults(results) {
         logger.info('\n' + '='.repeat(50));
-        logger.info('抓取结果统计');
+        logger.info(`抓取结果统计 - ${CONFIG.CATEGORY}`);
         logger.info('='.repeat(50));
         logger.info(`项目总数: ${results.total}`);
         logger.info(`新增处理: ${results.processed}`);
@@ -756,16 +733,13 @@ class HybridProjectCrawler {
  */
 async function main() {
     try {
-        logger.info('🏗️ 杭州市建设项目批前公示抓取系统');
+        logger.info('🏗️ 杭州市建设项目抓取系统（通用版）');
+        logger.info('='.repeat(50));
+        logger.info(`📋 LIST_URL: ${CONFIG.LIST_URL}`);
+        logger.info(`📂 Category: ${CONFIG.CATEGORY}`);
         logger.info('='.repeat(50));
 
         // 创建抓取器实例
-        // 根据您的情况选择使用哪个类
-
-        // 方案1: 使用已有数据库模型（如果已定义）
-        // const crawler = new CrawlerWithExistingModel();
-
-        // 方案2: 使用纯MongoDB操作
         const crawler = new HybridProjectCrawler();
 
         // 运行抓取
